@@ -1,6 +1,5 @@
 package mgr;
 
-public interface FactoryTest<T extends Manageable> {
+public interface Factory<T extends Manageable> {
 	public T create();
-	// test
 }
