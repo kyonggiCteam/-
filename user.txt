@@ -1,0 +1,7 @@
+lee lll 1 0
+kim kkk 1 0
+park ppp 2 11
+cho ccc 2 5
+kang kkkk 1 21
+min mmm 2 0
+bae bbb 3 0
