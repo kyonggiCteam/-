@@ -1,0 +1,56 @@
+import java.awt.*;
+import javax.swing.*;
+
+public class ChooserDemo extends JFrame {
+
+	// jeju, seolak, namhae, uleung은 클릭 횟수 담을 변수
+	int jeju = 0;
+	int seolak = 0;
+	int namhae = 0;
+	int uleung = 0;
+	
+	JButton jj = new JButton("제주도");
+	JButton sl = new JButton("설악산")
+	JButton nh = new JButton("남해안")
+	JButton ul = new JButton("울릉도")
+	JTextField resultTF = new JTextField("제주도: "+jeju+"설악산: "+seolak+"남해안: "+namhae+"울릉도: "+uleung)
+	
+	public void addComponentsToPane() {
+		Container pane = getContentPane();
+		pane.setLayout(new FlowLayout());
+		pane.add(jj);
+		pane.add(sl);
+		pane.add(resultTF);
+		pane.add(nh);
+		pane.add(ul);
+	}
+
+	private void createAndShowGUI() {
+		setTitle("ColorChooserDemo");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		addComponentsToPane();
+		pack();
+		setVisible(true);
+	}
+
+	public static void main(String[] args) {
+		MainFrameDemo frame = new MainFrameDemo();
+		frame.createAndShowGUI();
+	}
+
+}
+
+public class Listener implements ActionListener {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String buttonName = e.getActionCommand();
+		// int result = Integer.parseInt(BorderLayoutMain.resultTF.getText());
+		if (buttonName.equals("제주도")) jeju++;
+		else if (buttonName.equals("설악산")) seolak++;
+		else if (buttonName.equals("남해안")) namhae++;
+		else if (buttonName.equals("울릉도")) uleung++;
+		BorderLayoutMain.resultTF.setText(“” + result));
+	}
+	
+}
