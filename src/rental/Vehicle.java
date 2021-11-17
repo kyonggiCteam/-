@@ -15,6 +15,7 @@ public class Vehicle implements Manageable {
 	//일일권에서 이용.
 	int starthour;
 	int startmin;
+	// state 고려 !!
 	
 	// 시간 저장 함수
 	void setTime() {

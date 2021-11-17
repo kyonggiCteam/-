@@ -30,6 +30,17 @@ public class RentSpot implements Manageable { // Vehicle 대여, 반납, 조회 기능 �
 	@Override
 	public void read(Scanner scan) {
 		spotName = scan.next();
+		String vehicleName = null;
+		Vehicle vehicle = null;
+		while(true) {
+			vehicleName = scan.next();
+			if(vehicleName.contentEquals("0"))	
+				break;
+			// 코드에 맞는 vehicle을 찾아줘야 함.  
+			vehicle = RentSystem.vehicleMgr.find(vehicleName);
+			vehicleList.add(vehicle);
+		}
+		
 	}
 	@Override
 	public void print() {
