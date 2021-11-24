@@ -1,5 +1,9 @@
 package rental;
 
+<<<<<<< Updated upstream
+=======
+import java.util.ArrayList;
+>>>>>>> Stashed changes
 import java.util.Scanner;
 
 import mgr.Manageable;
@@ -12,15 +16,24 @@ public class User implements Manageable {
 	Vehicle rental;
 	int point;
 	int license; // 0: 면허 미보유  1: 면허 보유
+<<<<<<< Updated upstream
 	int ticket; // 0: 대여권 없음   1: 일일권(1시간) 2: 일일권(2시간)
 				// 3: 정기권(1개월) 4: 정기권(6개월) 5: 정기권(12개월 = 1년)
 	
+=======
+	Ticket ticket;
+	// String으로 선언
+>>>>>>> Stashed changes
 	int startyear;  
 	int startmonth;
 	int startdate;
 	// 남은 날짜 -> 이거 갱신이 필요한데 => 로그인 할때마다 갱신하는 거 어떨까
 	// 로그인 할때 정기권 유무 확인후, 현재 날짜, 시작 날짜 비교해서 남은 날짜 계산.
 	int leftday;
+<<<<<<< Updated upstream
+=======
+//	ArrayList<RentSpot> favoriteRentSpotList = new ArrayList<>(); //즐겨찾는 대여소
+>>>>>>> Stashed changes
 	
 	@Override
 	public void read(Scanner scan) {
@@ -36,6 +49,7 @@ public class User implements Manageable {
 		System.out.printf("[%s] 아이디: %s, 포인트: %d점, 면허보유여부: %d\n", 
 				name, id, point, license);
 		// GUI에서 메인 메뉴에 보이는 거 표현
+<<<<<<< Updated upstream
 		if(ticket != 0) {
 			if(ticket == 1)
 				System.out.println("[일일권]: 1시간 이용");
@@ -47,6 +61,16 @@ public class User implements Manageable {
 			}
 	
 		}
+=======
+//		if(ticket == null) {
+//		System.out.println("없음");
+//	} else {
+//		if (ticket.name == "일일권")
+//			System.out.printf("[%s] %d시간 이용권", ticket.name, ticket.hour);
+//		else
+//			System.out.printf("[%s] %d개월 이용권, %d일 남음", ticket.name, ticket.month, leftday);
+//	}
+>>>>>>> Stashed changes
 	}
 	
 	@Override
@@ -91,4 +115,8 @@ public class User implements Manageable {
 			license = (int) Integer.parseInt(tmp);
 	}
 
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

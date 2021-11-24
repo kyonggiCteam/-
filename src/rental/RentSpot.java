@@ -6,12 +6,29 @@ import java.util.Scanner;
 import mgr.Manageable;
 
 public class RentSpot implements Manageable { // Vehicle ´ë¿©, ¹Ý³³, Á¶È¸ ±â´É ¼öÇà.
+<<<<<<< Updated upstream
 
 	String spotName; 
 	// ÀÏ´ÜÀº ÀÚÀü°Å¶û Å±º¸µå ±¸ºÐ ¾ÈÇÔ.
 	ArrayList<Vehicle> vehicleList = new ArrayList<>();  // RentSpot µ¥ÀÌÅÍ ÀÐÀ» ¶§, ÀúÀå.
 	
 
+=======
+	int spotCode;
+	String areaName;
+	String spotName; 
+	// ÀÏ´ÜÀº ÀÚÀü°Å¶û Å±º¸µå ±¸ºÐ ¾ÈÇÔ.
+	ArrayList<Vehicle> vehicleList = new ArrayList<>();  // RentSpot µ¥ÀÌÅÍ ÀÐÀ» ¶§, ÀúÀå.
+	// °íÀå vehicleÀ» ¾ê°¡ °¡Á®µµ ±¦ÂúÀ» µí. ±×·¡¼­ °Ë»öÇÒ ¶§, °íÀå½Å°íµÈ vehicle º¸¿©ÁÖ±â
+
+	// ¾÷Ã¼¸í -> ¿©·¯ ¾÷Ã¼¸¦ °¡Áö°í ÀÖÀ¸¹Ç·Î List·Î °¡Á®¾ßÇÒµí
+	ArrayList<Brand> brandList	= new ArrayList<>();
+	//Áñ°ÜÃ£±â ±â´É
+	int favorite;  // 1: Áñ°ÜÃ£±â
+	//rentspot code Ãß°¡ÇØµµ µÉ µí.
+	
+	
+>>>>>>> Stashed changes
 	// Á¶È¸
 	void checkStock() {
 
@@ -29,14 +46,33 @@ public class RentSpot implements Manageable { // Vehicle ´ë¿©, ¹Ý³³, Á¶È¸ ±â´É ¼
 	}
 	@Override
 	public void read(Scanner scan) {
+<<<<<<< Updated upstream
 		spotName = scan.next();
+=======
+		spotCode = scan.nextInt();
+		areaName = scan.next();
+		spotName = scan.next();
+		String brandName = null;
+		Brand brand = null;
+		while(true) {
+			brandName = scan.next();
+			if(brandName.contentEquals("0"))	
+				break;
+			brand = RentSystem.brandMgr.find(brandName);
+			brandList.add(brand);
+		}
+>>>>>>> Stashed changes
 		String vehicleName = null;
 		Vehicle vehicle = null;
 		while(true) {
 			vehicleName = scan.next();
 			if(vehicleName.contentEquals("0"))	
 				break;
+<<<<<<< Updated upstream
 			// ÄÚµå¿¡ ¸Â´Â vehicleÀ» Ã£¾ÆÁà¾ß ÇÔ.  
+=======
+			// ÄÚµå¿¡ ¸Â´Â vehicleÀ» Ã£¾ÆÁà¾ß ÇÔ. -> so, vehicleÀ» ÀÐ°í spotÀ» ÀÐ¾î¾ßÇÔ.
+>>>>>>> Stashed changes
 			vehicle = RentSystem.vehicleMgr.find(vehicleName);
 			vehicleList.add(vehicle);
 		}
@@ -44,6 +80,7 @@ public class RentSpot implements Manageable { // Vehicle ´ë¿©, ¹Ý³³, Á¶È¸ ±â´É ¼
 	}
 	@Override
 	public void print() {
+<<<<<<< Updated upstream
 		System.out.printf("Á¤·ùÀå ÀÌ¸§: %s\n", spotName);
 	}
 	@Override
@@ -51,3 +88,35 @@ public class RentSpot implements Manageable { // Vehicle ´ë¿©, ¹Ý³³, Á¶È¸ ±â´É ¼
 		return false;
 	}
 }
+=======
+		System.out.printf("Áö¿ª ÀÌ¸§: %s, Á¤·ùÀå ÀÌ¸§: %s	\n", areaName, spotName);
+	}
+	
+//	@Override
+//	public void print() {
+//		print(true);
+//	}
+//
+//   public void print(boolean bDetail) {
+//	   System.out.printf("´ë¿©¼Ò ÀÌ¸§: (%s) %s\n", Gu, spotName);
+//	   if (!bDetail)
+//		   return;
+//	   
+//	   System.out.println("[ºê·£µå ¸®½ºÆ®]");
+//	   for (Brand brand: brandList)
+//		   brand.print();
+//	   
+//	   System.out.println("[Àåºñ ¸®½ºÆ®]");
+//	   for (Vehicle vehicle: vehicleList)
+//		   vehicle.print();
+//   }
+	
+	@Override
+	public boolean matches(String kwd) {
+		if(spotName.contentEquals(kwd)) {
+			return true;
+		}
+		return false;
+	}
+}
+>>>>>>> Stashed changes
