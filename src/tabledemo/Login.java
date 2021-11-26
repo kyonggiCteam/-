@@ -57,9 +57,17 @@ public class Login extends JFrame {
 				String pw = t2.getText();
 				user = RentSystem.userMgr.find(id);
 				
+<<<<<<< Updated upstream
 				if (user != null && user.passwordMatch(pw))
 					JOptionPane.showMessageDialog(null, "로그인 성공");
 				else
+=======
+				if (user != null && user.passwordMatch(pw)) {
+					JOptionPane.showMessageDialog(null, "로그인 성공");
+					Table t = new Table();
+	                setVisible(false);
+				} else
+>>>>>>> Stashed changes
 					JOptionPane.showMessageDialog(null, "올바른 회원 정보가 아닙니다. 다시 입력해주세요.");
 			}
 		});

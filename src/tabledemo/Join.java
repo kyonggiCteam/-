@@ -14,7 +14,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import rental.User;
+import rental.UserManager;
+
 public class Join extends JFrame {
+	UserManager userMgr = new UserManager();
+	User user;
 	public Join() {
 		JPanel p = new JPanel();
 		p.setLayout(null);
