@@ -4,6 +4,8 @@ package tabledemo;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,19 +14,20 @@ public class LoginJoin extends JFrame{
 	public LoginJoin() {
 		//JFrame frm = new JFrame("로그인 화면");
 		
-		JPanel p = new JPanel();
-        p.setLayout(null);
+		// 왜 넣은 걸까?
+//		JPanel p = new JPanel();
+//        p.setLayout(null);
         
         setTitle("메인화면");
 		setSize(350, 300);
 		// 프레임을 화면 가운데에 배치
 		setLocationRelativeTo(null);
-
 		// 프레임을 닫았을 때 메모리에서 제거되도록 설정
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// 레이아웃 설정
-		getContentPane().setLayout(null);
+		Container c = getContentPane();
+		c.setLayout(null);
 
 		// 버튼 생성
 		JButton login = new JButton("로그인");
@@ -35,8 +38,8 @@ public class LoginJoin extends JFrame{
 		join.setBounds(192, 100, 96, 63);
 
 		// ★ 프레임에다가 버튼 추가
-		getContentPane().add(login);
-		getContentPane().add(join);
+		c.add(login);
+		c.add(join);
 
 		// 로그인 버튼이 눌렸을때
 		login.addActionListener(new ActionListener() {

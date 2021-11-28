@@ -14,18 +14,20 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
+import rental.User;
+
 public class Map extends JFrame {
 	Map1 map1 = null;
 	Map2 map2 = null;
 	Map3 map3 = null;
 	Map4 map4 = null;
 	
-	Map(){
+	Map(User user){
 		setTitle("지도화면");
-		map1 = new Map1();
-		map2 = new Map2();
-		map3 = new Map3();
-		map4 = new Map4();
+		map1 = new Map1(this, user);
+		map2 = new Map2(this, user);
+		map3 = new Map3(this, user);
+		map4 = new Map4(this, user);
 		
 		JTabbedPane jtab = new JTabbedPane();
 		
@@ -53,5 +55,4 @@ public class Map extends JFrame {
 	 * 
 	 * map.setSize(800, 600); map.setVisible(true); }
 	 */
-	
 }

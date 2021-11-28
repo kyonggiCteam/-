@@ -28,5 +28,7 @@ public class VehicleManager extends Manager<Vehicle> {
 			return;
 		}
 		breakdown.state = -1;
+		
+		// 파일에 쓰는 부분도 필요
 	}
 }

@@ -9,8 +9,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import rental.User;
+
 public class RentReturn extends JFrame {
-	RentReturn() {
+	User user;
+
+	RentReturn(User user) {
+		this.user = user;
 		JPanel p = new JPanel();
 		p.setLayout(null);
 
@@ -41,6 +46,7 @@ public class RentReturn extends JFrame {
 		getContentPane().add(r_eturn);
 		getContentPane().add(back);
 
+		// 빌리기
 		rent.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {// 회원가입창으로 이동
@@ -51,11 +57,12 @@ public class RentReturn extends JFrame {
 		});
 		;
 
+		// 돌아가기
 		back.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {// 회원가입창으로 이동
 				// TODO Auto-generated method stub
-				Map map = new Map();
+				Map map = new Map(user);
 				setVisible(false); // 창 안보이게 하기
 			}
 		});
@@ -71,9 +78,11 @@ public class RentReturn extends JFrame {
 	class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			// 빌리고 있는지 확인해야함..
 			JOptionPane.showMessageDialog(null, "반납이 완료되었습니다 \n\n 소모한 칼로리는___kcal입니다"); // 팝업창
 			//JOptionPane.showMessageDialog(null, "대여한 자전거가 없습니다.");
 			setVisible(false);
+			new Table(user);
 		}
 	}
 

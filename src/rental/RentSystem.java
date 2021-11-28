@@ -14,12 +14,11 @@ public class RentSystem {
 		return rentSystem;
 	}
 	public static Scanner scan = new Scanner(System.in);
-	static VehicleManager vehicleMgr = new VehicleManager();
+	public static VehicleManager vehicleMgr = new VehicleManager();
 	public static UserManager userMgr = new UserManager();
 	static RentSpotManager rentSpotMgr = new RentSpotManager();
-//	static Manager<Ticket> payMgr = new Manager<>();
 	static Manager<Brand> brandMgr = new Manager<>();
-	public static Payment payMgr = new Payment();
+	public static TicketManager ticketMgr = new TicketManager();
 	
 	public void run() {
 		// 데이터 읽기
@@ -28,14 +27,14 @@ public class RentSystem {
 				return new User();
 			}
 		});
-		brandMgr.readAll("brand.txt", new Factory<Brand>() {
-			public Brand create() {
-				return new Brand();
-			}
-		});
 		vehicleMgr.readAll("vehicle.txt", new Factory<Vehicle>(){
 			public Vehicle create() {
 				return new Vehicle();
+			}
+		});
+		ticketMgr.readAll("ticket.txt", new Factory<Ticket>() {
+			public Ticket create() {
+				return new Ticket();
 			}
 		});
 		rentSpotMgr.readAll("rentspot.txt", new Factory<RentSpot>() {
@@ -43,19 +42,34 @@ public class RentSystem {
 				return new RentSpot();
 			}
 		});
-		payMgr.readAll("ticket.txt", new Factory<Ticket>() {
-			public Ticket create() {
-				return new Ticket();
+		brandMgr.readAll("brand.txt", new Factory<Brand>() {
+			public Brand create() {
+				return new Brand();
 			}
 		});
 		
+		System.out.println("--------------------------------User 모든 정보-----------------------------------");
 		userMgr.printAll();
+		System.out.println("--------------------------------Brand 모든 정보-----------------------------------");
 		brandMgr.printAll();
+		System.out.println("--------------------------------Vehicle 모든 정보-----------------------------------");
 		vehicleMgr.printAll();
+		System.out.println("--------------------------------RentSpot 모든 정보-----------------------------------");
 		rentSpotMgr.printAll();
-		payMgr.printAll();
+		System.out.println("--------------------------------Ticket 모든 정보-----------------------------------");
+		ticketMgr.printAll();
 		
-		//start();
+		System.out.println("------------------------가격순 티켓 정렬------------------------");
+		ticketMgr.sortByPrice();
+		ticketMgr.printAll();
+		System.out.println("------------------------기간별 티켓 정렬------------------------");
+		ticketMgr.sortByPeriod();
+		ticketMgr.printAll();
+		System.out.println("------------------------브랜드별 티켓 정렬------------------------");
+		ticketMgr.sortByBrand();
+		ticketMgr.printAll();
+		
+//		start();
 }
 	void start() {
 		// Step 1. 로그인 / 회원가입
@@ -68,8 +82,7 @@ public class RentSystem {
 				menu();
 				break;
 			case 2: 
-				userMgr.join(scan); 
-				userMgr.printAll(); // 확인용
+//				userMgr.join(scan);
 				break;
 			default: break;
 			}
@@ -78,9 +91,6 @@ public class RentSystem {
 	}
 	
 	void menu() {
-		// 내 정보
-		userMgr.myPage();
-		
 		while (true) {
 			// Step 2(메인화면). 대여 및 반납 / 불량/고장신고 / 마이페이지
 			System.out.print("\n<메뉴>\n1.대여 및 반납  2.불량/고장신고  3.마이페이지  4.로그아웃 ");
@@ -94,9 +104,11 @@ public class RentSystem {
 				vehicleMgr.printAll(); // 확인용
 				break;
 			case 3: 
-				userMgr.buyTicket(scan); 
+				userMgr.myPage(); 
 				break;
-			case 4: start(); break;
+			case 4: 
+				start(); 
+				break;
 			case 5: 
 				userMgr.modify(scan); 
 				break;
@@ -107,24 +119,17 @@ public class RentSystem {
 		}
 	}
 	
-	
 	void RentalAndReturn() {
-		// 대여 과정 : 1.장소 선택 -> 2.즐찾 -> 3.대여 선택 -> 4.티켓 정렬 -> 5..티켓 구매(결제) -> 6.장비 선택 -> 7.대여
+		// 대여 과정 : 1.장소 선택 -> 2.즐찾 -> 3.대여 선택 -> 4.티켓 정렬 -> 5.티켓 구매(결제) -> 6.장비 선택 -> 7.대여
 		// 반납 과정 : 1.장소 선택 -> 2.즐찾 -> 3.반납 선택
-		userMgr.selectRentSpot(scan); // 1.장소 선택
-		userMgr.addFavoriteRentSpot(scan); // 2.즐찾
+		userMgr.selectSpot(scan); // 1.장소 선택
+		userMgr.addFavoriteSpot(scan); // 2.즐찾
 		
 		System.out.print("1.대여  2.반납 "); // 3.대여/반납 선택
 		int num = scan.nextInt();
 		switch(num) {
 		case 1:
-			System.out.println("----------------------가격순 티켓 정렬--------------------------");
-			payMgr.sortByPrice();
-			System.out.println("----------------------기간별 티켓 정렬--------------------------");
-			payMgr.sortByPeriod();
-			System.out.println("----------------------브랜드별 티켓 정렬--------------------------");
-			payMgr.sortByBrand();
-			
+			sortTicket();
 			userMgr.rentalVehicle(scan);
 			break;
 		case 2:
@@ -134,8 +139,28 @@ public class RentSystem {
 			System.out.println(">> 다시 입력하세요.");
 			break;
 		}
-		
-		
+	}
+	
+	void sortTicket() {
+		System.out.print("티켓 정렬 방식을 고르세요.\n (1)가격순  (2)기간별  (3)브랜드별 ");
+		int num = scan.nextInt();
+		switch(num) {
+		case 1:
+			System.out.println("----------------------가격순 티켓 정렬--------------------------");
+			ticketMgr.sortByPrice();
+			break;
+		case 2:
+			System.out.println("----------------------기간별 티켓 정렬--------------------------");
+			ticketMgr.sortByPeriod();
+			break;
+		case 3:
+			System.out.println("----------------------브랜드별 티켓 정렬--------------------------");
+			ticketMgr.sortByBrand();
+		default: 
+			System.out.println(">> 다시 입력하세요.");
+			break;
+		}
+		ticketMgr.printAll();
 	}
 
 	public static void main(String[] args) {

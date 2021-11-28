@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import rental.User;
+
 public class Map1 extends JPanel {
 	JButton j1 = new JButton("A 효준아파트");
 	JButton j2 = new JButton("B 창용초등학교");
@@ -19,10 +21,13 @@ public class Map1 extends JPanel {
 	JButton j7 = new JButton("G 신미주아파트");
 	JButton j8 = new JButton("H CU목화아파트점");
 	JButton back = new JButton("뒤로가기");
-	
-	Image img=new ImageIcon("image/background.png").getImage();
+	User user;
+	Map map;
+	Image img = new ImageIcon("image/background.png").getImage();
 
-	Map1() {
+	Map1(Map m, User user) {
+		map = m;
+		this.user = user;
 		setLayout(null);
 		setSize(700, 500);
 		setVisible(false);
@@ -46,90 +51,39 @@ public class Map1 extends JPanel {
 		back.setBounds(10, 505, 100, 25);
 		add(back);
 		
-		j1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
-				// TODO Auto-generated method stub
-				RentReturn rr = new RentReturn();
-				setVisible(false); // 창 안보이게 하기 
-			}
-		});;
+		MyActionListener rentListener = new MyActionListener();
+		j1.addActionListener(rentListener);	
+		j2.addActionListener(rentListener);
+		j3.addActionListener(rentListener);
+		j4.addActionListener(rentListener);		
+		j5.addActionListener(rentListener);
+		j6.addActionListener(rentListener);
+		j7.addActionListener(rentListener);
+		j8.addActionListener(rentListener);
 		
-		j2.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
-				// TODO Auto-generated method stub
-				RentReturn rr = new RentReturn();
-				setVisible(false); // 창 안보이게 하기 
-			}
-		});;
-		
-		j3.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
-				// TODO Auto-generated method stub
-				RentReturn rr = new RentReturn();
-				setVisible(false); // 창 안보이게 하기 
-			}
-		});;
-		
-		j4.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
-				// TODO Auto-generated method stub
-				RentReturn rr = new RentReturn();
-				setVisible(false); // 창 안보이게 하기 
-			}
-		});;
-		
-		j5.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
-				// TODO Auto-generated method stub
-				RentReturn rr = new RentReturn();
-				setVisible(false); // 창 안보이게 하기 
-			}
-		});;
-		
-		j6.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
-				// TODO Auto-generated method stub
-				RentReturn rr = new RentReturn();
-				setVisible(false); // 창 안보이게 하기 
-			}
-		});;
-		
-		j7.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
-				// TODO Auto-generated method stub
-				RentReturn rr = new RentReturn();
-				setVisible(false); // 창 안보이게 하기 
-			}
-		});;
-		
-		j8.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
-				// TODO Auto-generated method stub
-				RentReturn rr = new RentReturn();
-				setVisible(false); // 창 안보이게 하기 
-			}
-		});;
-		
+		//뒤로가기
 		back.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
+			public void actionPerformed(ActionEvent e) { // 뒤로가기
 				// TODO Auto-generated method stub
-				GUIMain m = new GUIMain();
-				setVisible(false); // 창 안보이게 하기 
+				new Table(user);
+				m.setVisible(false); // 창 안보이게 하기 
 			}
-		});;
-		
+		});
 	}
 
 	public void paintComponent(Graphics g) {
 		g.drawImage(img, 0, 0, null);
 	}
+	
+	// 데야 반납
+	class MyActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			RentReturn rr = new RentReturn(user);
+			map.setVisible(false); // 창 안보이게 하기
+		}
+	}	
+
 }

@@ -9,18 +9,13 @@ import mgr.Manageable;
 
 public class Vehicle implements Manageable {
 
-	String code;  // scooter : S1234 (앞에 두 글자는 정류장, 뒤에 2글자는 개수)
-				// Bicycle: B1234
-	Brand brand;
+	public String code;  // 전동킥보드 : 첫 글자 S, 자전거: 첫 글자 B
+	String brandName;
 //	boolean crush;
 	int state; // 0: 이용가능 1: 이용중 -1: 고장
-	//일일권에서 이용.
-	
-	ArrayList<String> optionList = new ArrayList<>();
-	
+	public ArrayList<String> optionList = new ArrayList<>();
 	int starthour;
 	int startmin;
-	// state 고려 !!
 	
 	// 시간 저장 함수
 	void setTime() {
@@ -29,13 +24,15 @@ public class Vehicle implements Manageable {
 		startmin = now.get(Calendar.MINUTE);		
 	}
 	
+	public int getState() {
+		return this.state;
+	}
 	
 	@Override
 	public void read(Scanner scan) {
 		code = scan.next();
-		String brandName = scan.next();
-		brand = RentSystem.brandMgr.find(brandName);
-		
+		brandName = scan.next();
+		state = scan.nextInt();
 		String optionName = null;
 		while(true) {
 			optionName = scan.next();
@@ -47,17 +44,34 @@ public class Vehicle implements Manageable {
 	
 	@Override
 	public void print() {
-//		System.out.printf("장비 코드: %s, 브랜드: %s\n", code, brand.brandName);
-		if (code.contains("B"))
-			System.out.printf("자전거/ 코드: %s, 브랜드: %s\n", code, brand.brandName);
+		if (code.charAt(0) == 'B')
+			System.out.printf("[%s] 장비: 자전거, 상태 : %d, 브랜드: %s\n", code, state, brandName);
+		else if (code.charAt(0) == 'S')
+			System.out.printf("[%s] 장비: 전동킥보드, 상태 : %d, 브랜드: %s\n", code, state, brandName);
 		else
-			System.out.printf("전동킥보드/ 코드: %s, 브랜드: %s\n", code, brand.brandName);
+			System.out.printf("[%s] 상태: %d, 브랜드: %s\n", code, state, brandName);
 	}
+	
+	public String[] getTexts() {
+		String options= "";
+		String tmp = "";
+		for (int i=0; i<optionList.size(); i++) {
+			tmp = tmp + optionList.get(i) + ", ";
+			options = tmp.substring(0, tmp.length()-2);
+		}
+		if (code.charAt(0) == 'B')
+			return new String[] {code, brandName, "자전거", options};
+		else if (code.charAt(0) == 'S')
+			return new String[] {code, brandName, "전동킥보드", options};
+		else
+			return new String[] {code, brandName, "장비", options};
+	}
+	
 	@Override
 	public boolean matches(String kwd) {
 		if(code.equals(kwd))
 			return true;
-		if(brand.brandName.equals(kwd))
+		if(brandName.equals(kwd))
 			return true;
 		return false;
 	}
