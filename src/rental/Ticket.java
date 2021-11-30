@@ -7,9 +7,8 @@ import mgr.Manageable;
 public class Ticket implements Manageable {
 	//L01 Lime 1200 일일권 1 0
 	public String code;
-//	Brand brand;
-	String brandName; //임시
-	int price;
+	public String brandName;
+	public int price;
 	String ticketType;
 	int hour;
 	int month;
@@ -17,8 +16,6 @@ public class Ticket implements Manageable {
 	@Override
 	public void read(Scanner scan) {
 		 code = scan.next();
-//		 String brandName = scan.next(); 
-//		 brand = RentSystem.brandMgr.find(brandName); //brandMgr 임시로 만들긴 했는데,,
 		 brandName = scan.next();
 		 price = scan.nextInt();
 		 ticketType = scan.next();
@@ -28,20 +25,27 @@ public class Ticket implements Manageable {
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
-		
+		if (hour == 0)
+			System.out.printf("[%s] %s %d원 %s %d개월\n", code, brandName, price, ticketType, month);
+		else if (month == 0)
+			System.out.printf("[%s] %s %d원 %s %d시간\n", code, brandName, price, ticketType, hour);
+		else
+			System.out.printf("[%s] %s %d원 %s %d개월 %d시간\n", code, brandName, price, ticketType, month, hour);	
 	}
 	
 	public String[] getTexts() {
-		return new String[] {brandName, "킥보드/자전거", ticketType, ""+price, "${month}개월 ${hour}시간"};
+		if (hour == 0)
+			return new String[] {brandName, "자전거/킥보드", ticketType, price+"원", month+"개월", code};
+		else if (month == 0)
+			return new String[] {brandName, "자전거/킥보드", ticketType, price+"원", hour+"시간", code};
+		else
+			return new String[] {brandName, "자전거/킥보드", ticketType, price+"원", month+"개월 "+hour+"시간", code};
 	}
 
 	@Override
 	public boolean matches(String kwd) {
 		if(code.equals(kwd))
 			return true;
-//		if(brandName.equals(kwd)) // 브랜드별 티켓 탐색 시 필요 예쌍
-//			return true;
 		if(ticketType.equals(kwd))
 			return true;
 		return false;

@@ -4,15 +4,12 @@ import rental.RentSystem;
 import rental.UserManager;
 import rental.Vehicle;
 
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 
 import mgr.Factory;
 import rental.RentSpotManager;
 import rental.VehicleManager;
 import rental.Ticket;
-import rental.User;
 
 public class GUIMain {
 	static RentSystem rentSystem = RentSystem.getInstance();
@@ -31,22 +28,21 @@ public class GUIMain {
 	}
 	
     private static void createAndShowGUI() {
-    	ArrayList<User> userList = new ArrayList<>(); // ìž„ì‹œ ì½”ë“œ ë‚˜ì¤‘ì— ì§€ì›Œì•¼ë¨
-    	new LoginJoin(userList);
-    	// ---------------------- ë¡œê·¸ì¸ ì²˜ë¦¬ê¹Œì§€ ì§„í–‰ ------------------------
+    	new LoginJoin();
+    	// ---------------------- ·Î±×ÀÎ Ã³¸®±îÁö ÁøÇà ------------------------
     	
-    	// JTable ==> ìš°ì„  ë¡œê·¸ì¸ì´ëž‘ ë™ì‹œì— ëœ¨ëŠ”ë° ì¶”í›„ ê³ ì¹˜ê¸° 
-        //Create and set up the window.
-        JFrame frame = new JFrame("TableSelectionDemo");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //Create and set up the content pane.
-        TicketTableSelectionDemo newContentPane = new TicketTableSelectionDemo();
-        newContentPane.setOpaque(true); //content panes must be opaque
-        frame.setContentPane(newContentPane);
-
-        //Display the window.
-        frame.pack();
-        frame.setVisible(true);
+//    	// JTable ==> ¿ì¼± ·Î±×ÀÎÀÌ¶û µ¿½Ã¿¡ ¶ß´Âµ¥ ÃßÈÄ °íÄ¡±â 
+//        //Create and set up the window.
+//        JFrame frame = new JFrame("TableSelectionDemo");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//        //Create and set up the content pane.
+//        TicketTableSelectionDemo newContentPane = new TicketTableSelectionDemo(1);
+//        newContentPane.setOpaque(true); //content panes must be opaque
+//        frame.setContentPane(newContentPane);
+//
+//        //Display the window.
+//        frame.pack();
+//        frame.setVisible(true);
     }
 }

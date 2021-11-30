@@ -1,11 +1,9 @@
 package rental;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import mgr.Factory;
 import mgr.Manager;
-import tabledemo.LoginJoin;
 
 public class RentSystem {
 	private static RentSystem rentSystem = null;
@@ -16,23 +14,17 @@ public class RentSystem {
 		return rentSystem;
 	}
 	public static Scanner scan = new Scanner(System.in);
-	static VehicleManager vehicleMgr = new VehicleManager();
+	public static VehicleManager vehicleMgr = new VehicleManager();
 	public static UserManager userMgr = new UserManager();
-	static RentSpotManager rentSpotMgr = new RentSpotManager();
-//	static Manager<Ticket> payMgr = new Manager<>();
-	static Manager<Brand> brandMgr = new Manager<>();
-	public static Payment payMgr = new Payment();
+	public static RentSpotManager rentSpotMgr = new RentSpotManager();
+	public static Manager<Brand> brandMgr = new Manager<>();
+	public static TicketManager ticketMgr = new TicketManager();
 	
 	public void run() {
-		// ë°ì´í„° ì½ê¸°
+		// µ¥ÀÌÅÍ ÀĞ±â
 		userMgr.readAll("user.txt", new Factory<User>() {
 			public User create() {
 				return new User();
-			}
-		});
-		brandMgr.readAll("brand.txt", new Factory<Brand>() {
-			public Brand create() {
-				return new Brand();
 			}
 		});
 		vehicleMgr.readAll("vehicle.txt", new Factory<Vehicle>(){
@@ -40,29 +32,49 @@ public class RentSystem {
 				return new Vehicle();
 			}
 		});
+		ticketMgr.readAll("ticket.txt", new Factory<Ticket>() {
+			public Ticket create() {
+				return new Ticket();
+			}
+		});
 		rentSpotMgr.readAll("rentspot.txt", new Factory<RentSpot>() {
 			public RentSpot create() {
 				return new RentSpot();
 			}
 		});
-		payMgr.readAll("ticket.txt", new Factory<Ticket>() {
-			public Ticket create() {
-				return new Ticket();
+		brandMgr.readAll("brand.txt", new Factory<Brand>() {
+			public Brand create() {
+				return new Brand();
 			}
 		});
 		
+		System.out.println("--------------------------------User ¸ğµç Á¤º¸-----------------------------------");
 		userMgr.printAll();
+		System.out.println("--------------------------------Brand ¸ğµç Á¤º¸-----------------------------------");
 		brandMgr.printAll();
+		System.out.println("--------------------------------Vehicle ¸ğµç Á¤º¸-----------------------------------");
 		vehicleMgr.printAll();
+		System.out.println("--------------------------------RentSpot ¸ğµç Á¤º¸-----------------------------------");
 		rentSpotMgr.printAll();
-		payMgr.printAll();
+		System.out.println("--------------------------------Ticket ¸ğµç Á¤º¸-----------------------------------");
+		ticketMgr.printAll();
 		
-		//start();
+		System.out.println("------------------------°¡°İ¼ø Æ¼ÄÏ Á¤·Ä------------------------");
+		ticketMgr.sortByPrice(RentSystem.ticketMgr.mList);
+		ticketMgr.printAll();
+		System.out.println("------------------------±â°£º° Æ¼ÄÏ Á¤·Ä------------------------");
+		ticketMgr.sortByPeriod(RentSystem.ticketMgr.mList);
+		ticketMgr.printAll();
+		System.out.println("------------------------ºê·£µåº° Æ¼ÄÏ Á¤·Ä------------------------");
+		ticketMgr.sortByBrand(RentSystem.ticketMgr.mList);
+		ticketMgr.printAll();
+		
+//		start();
 }
 	void start() {
-		// Step 1. ë¡œê·¸ì¸ / íšŒì›ê°€ì…
+		// Step 1. ·Î±×ÀÎ / È¸¿ø°¡ÀÔ
 		while (true) {
-			System.out.print("1.ë¡œê·¸ì¸  2.íšŒì›ê°€ì… ");
+			System.out.print("1.·Î±×ÀÎ  2.È¸¿ø°¡ÀÔ ");
 			int num = scan.nextInt();
 			switch(num) {
 			case 1: 
@@ -70,8 +82,7 @@ public class RentSystem {
 				menu();
 				break;
 			case 2: 
-				userMgr.join(scan); 
-				userMgr.printAll(); // í™•ì¸ìš©
+//				userMgr.join(scan);
 				break;
 			default: break;
 			}
@@ -80,12 +91,9 @@ public class RentSystem {
 	}
 	
 	void menu() {
-		// ë‚´ ì •ë³´
-		userMgr.myPage();
-		
 		while (true) {
-			// Step 2(ë©”ì¸í™”ë©´). ëŒ€ì—¬ ë° ë°˜ë‚© / ë¶ˆëŸ‰/ê³ ì¥ì‹ ê³  / ë§ˆì´í˜ì´ì§€
-			System.out.print("\n<ë©”ë‰´>\n1.ëŒ€ì—¬ ë° ë°˜ë‚©  2.ë¶ˆëŸ‰/ê³ ì¥ì‹ ê³   3.ë§ˆì´í˜ì´ì§€  4.ë¡œê·¸ì•„ì›ƒ ");
+			// Step 2(¸ŞÀÎÈ­¸é). ´ë¿© ¹× ¹İ³³ / ºÒ·®/°íÀå½Å°í / ¸¶ÀÌÆäÀÌÁö
+			System.out.print("\n<¸Ş´º>\n1.´ë¿© ¹× ¹İ³³  2.ºÒ·®/°íÀå½Å°í  3.¸¶ÀÌÆäÀÌÁö  4.·Î±×¾Æ¿ô ");
 			int num = scan.nextInt();
 			switch(num) {
 			case 1: //rentSpotMgr.rentVehicle(scan); 
@@ -93,64 +101,71 @@ public class RentSystem {
 				break;
 			case 2: 
 				vehicleMgr.breakdownReport(scan);
-				vehicleMgr.printAll(); // í™•ì¸ìš©
+				vehicleMgr.printAll(); // È®ÀÎ¿ë
 				break;
 			case 3: 
-				userMgr.buyTicket(scan); 
+				userMgr.myPage(); 
 				break;
-			case 4: start(); break;
+			case 4: 
+				start(); 
+				break;
 			case 5: 
 				userMgr.modify(scan); 
 				break;
 			default: 
-				System.out.println(">> ë‹¤ì‹œ ì…ë ¥í•˜ì„¸ìš”.");
+				System.out.println(">> ´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä.");
 				break;
 			}
 		}
 	}
 	
-	
 	void RentalAndReturn() {
-		// ëŒ€ì—¬ ê³¼ì • : 1.ì¥ì†Œ ì„ íƒ -> 2.ì¦ì°¾ -> 3.ëŒ€ì—¬ ì„ íƒ -> 4.í‹°ì¼“ ì •ë ¬ -> 5..í‹°ì¼“ êµ¬ë§¤(ê²°ì œ) -> 6.ì¥ë¹„ ì„ íƒ -> 7.ëŒ€ì—¬
-		// ë°˜ë‚© ê³¼ì • : 1.ì¥ì†Œ ì„ íƒ -> 2.ì¦ì°¾ -> 3.ë°˜ë‚© ì„ íƒ
-		userMgr.selectRentSpot(scan); // 1.ì¥ì†Œ ì„ íƒ
-		userMgr.addFavoriteRentSpot(scan); // 2.ì¦ì°¾
+		// ´ë¿© °úÁ¤ : 1.Àå¼Ò ¼±ÅÃ -> 2.ÁñÃ£ -> 3.´ë¿© ¼±ÅÃ -> 4.Æ¼ÄÏ Á¤·Ä -> 5.Æ¼ÄÏ ±¸¸Å(°áÁ¦) -> 6.Àåºñ ¼±ÅÃ -> 7.´ë¿©
+		// ¹İ³³ °úÁ¤ : 1.Àå¼Ò ¼±ÅÃ -> 2.ÁñÃ£ -> 3.¹İ³³ ¼±ÅÃ
+		userMgr.selectSpot(scan); // 1.Àå¼Ò ¼±ÅÃ
+		userMgr.addFavoriteSpot(scan); // 2.ÁñÃ£
 		
-		System.out.print("1.ëŒ€ì—¬  2.ë°˜ë‚© "); // 3.ëŒ€ì—¬/ë°˜ë‚© ì„ íƒ
+		System.out.print("1.´ë¿©  2.¹İ³³ "); // 3.´ë¿©/¹İ³³ ¼±ÅÃ
 		int num = scan.nextInt();
 		switch(num) {
 		case 1:
-			System.out.println("----------------------ê°€ê²©ìˆœ í‹°ì¼“ ì •ë ¬--------------------------");
-			payMgr.sortByPrice();
-			System.out.println("----------------------ê¸°ê°„ë³„ í‹°ì¼“ ì •ë ¬--------------------------");
-			payMgr.sortByPeriod();
-			System.out.println("----------------------ë¸Œëœë“œë³„ í‹°ì¼“ ì •ë ¬--------------------------");
-			payMgr.sortByBrand();
-			
+			sortTicket();
 			userMgr.rentalVehicle(scan);
 			break;
 		case 2:
 			userMgr.returnVehicle(scan);
 			break;
 		default: 
-			System.out.println(">> ë‹¤ì‹œ ì…ë ¥í•˜ì„¸ìš”.");
+			System.out.println(">> ´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä.");
 			break;
 		}
-		
-		
+	}
+	
+	void sortTicket() {
+		System.out.print("Æ¼ÄÏ Á¤·Ä ¹æ½ÄÀ» °í¸£¼¼¿ä.\n (1)°¡°İ¼ø  (2)±â°£º°  (3)ºê·£µåº° ");
+		int num = scan.nextInt();
+		switch(num) {
+		case 1:
+			System.out.println("----------------------°¡°İ¼ø Æ¼ÄÏ Á¤·Ä--------------------------");
+			ticketMgr.sortByPrice(RentSystem.ticketMgr.mList);
+			break;
+		case 2:
+			System.out.println("----------------------±â°£º° Æ¼ÄÏ Á¤·Ä--------------------------");
+			ticketMgr.sortByPeriod(RentSystem.ticketMgr.mList);
+			break;
+		case 3:
+			System.out.println("----------------------ºê·£µåº° Æ¼ÄÏ Á¤·Ä--------------------------");
+			ticketMgr.sortByBrand(RentSystem.ticketMgr.mList);
+		default: 
+			System.out.println(">> ´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä.");
+			break;
+		}
+		ticketMgr.printAll();
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//RentSystem s = new RentSystem();
-		//s.run();
-		
-		userMgr.readAll("user.txt", new Factory<User>() {
-			public User create() {
-				return new User();
-			}
-		});
-		new LoginJoin(userMgr.mList);
-		
+		RentSystem s = new RentSystem();
+		s.run();
 	}
 }

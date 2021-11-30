@@ -18,9 +18,9 @@ import javax.swing.JPanel;
 import rental.User;
 
 public class MyPage extends JFrame {
+
 	
-	
-	public MyPage(ArrayList<User> userList, User user) {
+	public MyPage(User user) {
 		
 		JPanel top = new JPanel();
 		JPanel bottom = new JPanel();
@@ -40,18 +40,24 @@ public class MyPage extends JFrame {
 		
 		String flaglcs = null;
 		
-		if (user.license == 1)
+		if (user.license==1)
 			flaglcs = "있음";
-		else if (user.license == 0)
+		else if (user.license==0)
 			flaglcs = "없음";
 			
+		// user.ticket 없어도 들어가져야 함.
+		String tick = null;
+		if( user.ticket == null)
+			tick = "";
+		else
+			tick = user.ticket.code;
 		
 		String str1 = "현재 회원정보";
 		String str2 = "- 이름: " + user.name;
 		String str3 = "- 아이디: " + user.id;
 		String str4 = "- 전화번호: " + user.phoneNumber;
 		String str5 = "- 면허: " + flaglcs;
-		String str6 = "- 보유한 티켓번호: " + user.ticket.code;
+		String str6 = "- 보유한 티켓번호: " + tick;
 		String str7 = "- 보유 포인트: " + user.point;
 		
 		setTitle("MyPage");
@@ -83,18 +89,18 @@ public class MyPage extends JFrame {
 		
 		btn_mdf.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
+			public void actionPerformed(ActionEvent e) {//정보수정 창으로 이동.
 				// TODO Auto-generated method stub
-				ModifyMyInfo m = new ModifyMyInfo(userList, user);
+				ModifyMyInfo m = new ModifyMyInfo(user);
 				setVisible(false); // 창 안보이게 하기 
 			}
 		});;
 		
 		btn_bck.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
+			public void actionPerformed(ActionEvent e) {//메뉴로 이동
 				// TODO Auto-generated method stub
-				Table t = new Table(userList, user);
+				Table t = new Table(user);
 				setVisible(false); // 창 안보이게 하기
 			}
 		});;

@@ -5,75 +5,78 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import mgr.Manageable;
 
-public class RentSpot implements Manageable { // Vehicle 대여, 반납, 조회 기능 수행.
-	int spotCode;
-	String areaName;
-	String spotName;
-	ArrayList<Brand> brandList = new ArrayList<>();
-	public static ArrayList<Vehicle> vehicleList = new ArrayList<>();  // RentSpot 데이터 읽을 때, 저장.
-
-	// 조회
-	void checkStock() {
-		System.out.println("<자전거 코드>");
-		for(Vehicle v : vehicleList) {
-			if(v.code.contains("B"))
-				System.out.printf("[ %s ]\n", v.code);
-		}
-		System.out.println("<전동 킥보드 코드>");
-		for(Vehicle v : vehicleList) {
-			if(v.code.contains("S"))
-				System.out.printf("[ %s ]\n", v.code);
-		}	
-	}
+public class RentSpot implements Manageable {
+	// spotCode int로 할지 String 할지
+	public String spotCode;
+	public String areaName;
+	public String spotName;
+	public ArrayList<String> brandNameList = new ArrayList<>();
+	public ArrayList<Vehicle> vehicleList = new ArrayList<>();
+	
 	@Override
 	public void read(Scanner scan) {
-		spotCode = scan.nextInt();
+		spotCode = scan.next();
 		areaName = scan.next();
 		spotName = scan.next();
 		
 		String brandName = null;
-		Brand brand = null;
 		while(true) {
 			brandName = scan.next();
 			if(brandName.contentEquals("0"))	
-				break;  
-			brand = RentSystem.brandMgr.find(brandName); //brandMgr 임시로 만들긴 했는데,,
-			brandList.add(brand);
+				break;
+			brandNameList.add(brandName);
 		}
 		
-		String vehicleName = null;
+		String vehicleCode = null;
 		Vehicle vehicle = null;
 		while(true) {
-			vehicleName = scan.next();
-			if(vehicleName.contentEquals("0"))	
+			vehicleCode = scan.next();
+			if(vehicleCode.contentEquals("0"))	
 				break;  
-			vehicle = RentSystem.vehicleMgr.find(vehicleName);
+			vehicle = RentSystem.vehicleMgr.find(vehicleCode);
 			vehicleList.add(vehicle);
 		}
 		
 	}
+	
 	@Override
 	public void print() {
-		print(true);
+		print(false);
 	}
 
-   public void print(boolean bDetail) {
-	   System.out.printf("대여소 코드: %d 이름: (%s) %s\n", spotCode, areaName, spotName);
-	   if (!bDetail)
-		   return;
-	   
-	   System.out.println("[브랜드 리스트]");
-	   for (Brand brand: brandList)
-		   brand.print();
-	   
-	   System.out.println("[장비 리스트]");
-	   for (Vehicle vehicle: vehicleList)
-		   vehicle.print();
-   }
-	
+	public void print(boolean bDetail) {
+		System.out.printf("[%s] 이름: (%s) %s\n", spotCode, areaName, spotName);
+		if (!bDetail)
+			return;
+  
+		System.out.println("<브랜드 리스트>");
+		for (String brandName: brandNameList)
+			System.out.println(brandName);
+   
+		System.out.println("<장비 리스트>");
+		for (Vehicle vehicle: vehicleList)
+			vehicle.print();
+	}
+
+	// 조회
+	void checkStock() {
+		System.out.printf("[현재 대여소(%s)의 장비 재고 조회]");
+		System.out.println("<자전거>");
+		for(Vehicle v : vehicleList) {
+			if(v.code.charAt(0) == 'B')
+				v.print();
+		}
+		System.out.println("<전동 킥보드>");
+		for(Vehicle v : vehicleList) {
+			if(v.code.charAt(0) == 'S')
+				v.print();
+		}	
+	}
 	
 	@Override
 	public boolean matches(String kwd) {
+		if (spotCode.equals(kwd))
+			return true;
 		if(areaName.equals(kwd))
 			return true;
 		if(spotName.equals(kwd))

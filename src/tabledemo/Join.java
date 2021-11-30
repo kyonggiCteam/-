@@ -1,176 +1,156 @@
 package tabledemo;
 
+import java.awt.Container;
 import java.awt.Label;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import rental.RentSystem;
 import rental.User;
+import rental.UserManager;
 
 public class Join extends JFrame {
-	
-	int flag = 0; // ì•„ì´ë”” í™•ì¸ ì•ˆí•˜ê³  ê°€ì… ì‹œë„ ê±°ë¦„ë§ ì—­í• 
-	
-	public Join(ArrayList<User> userList) {
-		JPanel p = new JPanel();
-		p.setLayout(null);
-		JButton btn_bck = new JButton("back");
-		add(btn_bck);
-		JButton btn_chk = new JButton("í™•ì¸");
-		add(btn_chk);
-		
-		
-		
-		Label l1 = new Label("ì´ë¦„");
-		Label l2 = new Label("ì „í™”ë²ˆí˜¸");
-		Label l3 = new Label("ì•„ì´ë””");
-		Label l4 = new Label("íŒ¨ìŠ¤ì›Œë“œ");
-		Label l5 = new Label("íŒ¨ìŠ¤ì›Œë“œ í™•ì¸");
-		Label l6 = new Label("ë©´í—ˆ ìœ ë¬´");
-		add(l1);
-		add(l2);
-		add(l3);
-		add(l4);
-		add(l5);
-		add(l6);
-		TextField t1 = new TextField();
-		TextField t2 = new TextField();
-		TextField t3 = new TextField();
-		TextField t4 = new TextField();
-		TextField t5 = new TextField();
+   String id;
+   int flag = 0; // ¾ÆÀÌµğ È®ÀÎ ¾ÈÇÏ°í °¡ÀÔ ½Ãµµ °Å¸§¸Á ¿ªÇÒ -> ¿À ÁÁÀº µí
+   
+   public Join() {
+//      JPanel p = new JPanel();
+//      p.setLayout(null);
+	  Container c = getContentPane();
+	  c.setLayout(null);
+	  
+      JButton btn_bck = new JButton("back");
+      c.add(btn_bck);
+      JButton btn_chk = new JButton("È®ÀÎ");
+      c.add(btn_chk);
+      
+      Label[] label = { new Label("ÀÌ¸§"), new Label("ÀüÈ­¹øÈ£"), new Label("¾ÆÀÌµğ"),
+    		  new Label("ÆĞ½º¿öµå"), new Label("ÆĞ½º¿öµå È®ÀÎ"), new Label("¸éÇã À¯¹«") };
+      for(int i = 0; i < label.length; i++)
+    	  c.add(label[i]);
 
-		JRadioButton yes = new JRadioButton("O");
-		JRadioButton no = new JRadioButton("X");
-		ButtonGroup bg = new ButtonGroup();
+      TextField[] text = {new TextField(), new TextField(), new TextField(), 
+    		  new TextField(), new TextField() };
+      for(int i = 0; i < text.length; i++)
+    	  c.add(text[i]);
+      
+      JRadioButton yes = new JRadioButton("O");
+      JRadioButton no = new JRadioButton("X");
+      ButtonGroup bg = new ButtonGroup();
+      
+      bg.add(yes); add(yes);
+      bg.add(no); add(no);
+      text[3].setEchoChar('*'); // ÆĞ½º¿öµå
+      text[4].setEchoChar('*'); // ÆĞ½º¿öµå È®ÀÎ
+      JButton j1 = new JButton("°¡ÀÔ");
+      c.add(j1);
+      setSize(400, 400);
+      // ÇÁ·¹ÀÓÀ» È­¸é °¡¿îµ¥¿¡ ¹èÄ¡
+      setLocationRelativeTo(null);
+      // ÇÁ·¹ÀÓÀ» ´İ¾ÒÀ» ¶§ ¸Ş¸ğ¸®¿¡¼­ Á¦°ÅµÇµµ·Ï ¼³Á¤
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      // À§Ä¡, Å©±â ¼³Á¤
+      label[0].setBounds(40, 20, 40, 40);
+      label[1].setBounds(40, 60, 50, 40);
+      label[2].setBounds(40, 100, 40, 40);
+      label[3].setBounds(40, 140, 50, 40);
+      label[4].setBounds(40, 180, 75, 40);
+      label[5].setBounds(40, 220, 60, 40);
+      text[0].setBounds(125, 20, 170, 30);
+      text[1].setBounds(125, 60, 170, 30);
+      text[2].setBounds(125, 100, 170, 30);
+      text[3].setBounds(125, 140, 170, 30);
+      text[4].setBounds(125, 180, 170, 30);
+      yes.setBounds(125, 220, 50, 30);
+      no.setBounds(180, 220, 50, 30);
+      j1.setBounds(153, 290, 80, 30);
+      btn_bck.setBounds(300, 320, 70, 30);
+      btn_chk.setBounds(305, 100, 60, 28);
+     // add(p);
+      setTitle("È¸¿ø°¡ÀÔ");
+      setVisible(true);
+      
+      // back
+      btn_bck.addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent e) {//È¸¿ø°¡ÀÔÃ¢À¸·Î ÀÌµ¿
+            // TODO Auto-generated method stub
+            new LoginJoin();
+            setVisible(false); // Ã¢ ¾Èº¸ÀÌ°Ô ÇÏ±â 
+         }
+      });;
+      
+      // ¾ÆÀÌµğ È®ÀÎ
+      btn_chk.addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent e) {//È¸¿ø°¡ÀÔÃ¢À¸·Î ÀÌµ¿
+            // TODO Auto-generated method stub
+            if (RentSystem.userMgr.idDuplicate(text[2].getText())) {
+               JOptionPane.showMessageDialog(c, "ÀÌ¹Ì Á¸ÀçÇÏ´Â ¾ÆÀÌµğÀÔ´Ï´Ù.");
+            } else {
+               flag = 1;
+               JOptionPane.showMessageDialog(c, "»ç¿ëÇÒ ¼ö ÀÖ´Â ¾ÆÀÌµğÀÔ´Ï´Ù.");
+            }
+         }
+      });;
+      
+      // °¡ÀÔ Å¬¸¯½Ã -> È®ÀÎ ¾È ÇØº½..
+      j1.addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent T) {// È¸¿ø°¡ÀÔ µ¥ÀÌÅÍ ÀúÀå
+            try {
+               String name = text[0].getText();
+               String phoneNumber = text[1].getText();
+               id = text[2].getText();
+               String pwd = text[3].getText();
+               String pwdCheck = text[4].getText();
+               String license = null;
+               if(yes.isSelected())
+                  license = "1";
+               else if(no.isSelected())
+                  license = "0";
 
-		add(t1);
-		add(t2);
-		add(t3);
-		add(t4);
-		add(t5);
-		bg.add(yes); add(yes);
-	    bg.add(no); add(no);
-		t4.setEchoChar('*'); // íŒ¨ìŠ¤ì›Œë“œ
-		t5.setEchoChar('*'); // íŒ¨ìŠ¤ì›Œë“œ í™•ì¸
-		JButton j1 = new JButton("ê°€ì…");
-		add(j1);
-		setSize(400, 400);
-		// í”„ë ˆì„ì„ í™”ë©´ ê°€ìš´ë°ì— ë°°ì¹˜
-		setLocationRelativeTo(null);
-		// í”„ë ˆì„ì„ ë‹«ì•˜ì„ ë•Œ ë©”ëª¨ë¦¬ì—ì„œ ì œê±°ë˜ë„ë¡ ì„¤ì •
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		l1.setBounds(40, 20, 40, 40);
-		l2.setBounds(40, 60, 50, 40);
-		l3.setBounds(40, 100, 40, 40);
-		l4.setBounds(40, 140, 50, 40);
-		l5.setBounds(40, 180, 75, 40);
-		l6.setBounds(40, 220, 60, 40);
-		t1.setBounds(125, 20, 170, 30);
-		t2.setBounds(125, 60, 170, 30);
-		t3.setBounds(125, 100, 170, 30);
-		t4.setBounds(125, 140, 170, 30);
-		t5.setBounds(125, 180, 170, 30);
-		yes.setBounds(125, 220, 50, 30);
-		no.setBounds(180, 220, 50, 30);
-		j1.setBounds(153, 290, 80, 30);
-		btn_bck.setBounds(300, 320, 70, 30);
-		btn_chk.setBounds(305, 100, 60, 28);
-		add(p);
-		setTitle("íšŒì›ê°€ì…");
-		setVisible(true);
-		
-		btn_bck.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {//íšŒì›ê°€ì…ì°½ìœ¼ë¡œ ì´ë™
-				// TODO Auto-generated method stub
-				LoginJoin l = new LoginJoin(userList);
-				setVisible(false); // ì°½ ì•ˆë³´ì´ê²Œ í•˜ê¸° 
-			}
-		});;
-		
-		btn_chk.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {//íšŒì›ê°€ì…ì°½ìœ¼ë¡œ ì´ë™
-				// TODO Auto-generated method stub
-				
-				try {
-					String s;
-					String[] array;
-					int dupflag = 0; // ë¶„ê¸°ì ì„ ìœ„í•œ flag ì¸ìˆ˜ 0ì´ë©´ ì¤‘ë³µ ì•„ë‹˜, 1ì´ë©´ ì¤‘ë³µ
-					BufferedReader bos = new BufferedReader(new FileReader("user.txt"));
-					while ((s = bos.readLine()) != null) {
-						array = s.split(" ");
-						if (t3.getText().equals(array[2])) {
-							dupflag = 1;
-							flag = dupflag;
-							break;
-						}
-					}
-					if (dupflag == 0)
-						JOptionPane.showMessageDialog(null, "ì‚¬ìš©í•  ìˆ˜ ìˆëŠ” ì•„ì´ë”” ì…ë‹ˆë‹¤.");  // íŒì—…ì°½
-					if (dupflag == 1)
-						JOptionPane.showMessageDialog(null, "ì‚¬ìš©í•  ìˆ˜ ì—†ëŠ” ì•„ì´ë”” ì…ë‹ˆë‹¤.");  // íŒì—…ì°½
-					bos.close(); // íŒŒì¼ì…ì¶œë ¥ëë‚˜ë©´ close
-				} catch (IOException E) {
-					E.printStackTrace();
-				}
-			}
-		});;
-		
-		j1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent T) {// íšŒì›ê°€ì… ë°ì´í„° ì €ì¥
-				try {
-					
-					String inputname = t1.getText();
-					String inputtelnum = t2.getText();
-					String inputid = t3.getText();
-					String inputpw = t4.getText();
-					String inputpwcheck = t5.getText();
-
-					if (inputname.equals("")||inputtelnum.equals("")||inputid.equals("")||inputpw.equals("")) // ëª¨ë“  ì¹¸ì„ ì…ë ¥í•˜ì§€ ì•Šì•˜ì„ë•Œ
-						JOptionPane.showMessageDialog(null, "ì…ë ¥í•  ë‚´ìš©ì„ ëª¨ë‘ ì…ë ¥í•´ì£¼ì„¸ìš”.");
-					else if (yes.isSelected() != true && no.isSelected() != true) // ë©´í—ˆ ì—¬ë¶€ ì„ íƒ ì•ˆí–ˆì„ë•Œ
-						JOptionPane.showMessageDialog(null, "ë©´í—ˆ ë³´ìœ  ì—¬ë¶€ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.");
-					else if (flag==1) // ì•„ì´ë”” í™•ì¸ ì•ˆí•˜ê³  ê°€ì…í•˜ëŠ” ê²ƒ ë°©ì§€ìš©
-						JOptionPane.showMessageDialog(null, "ì‚¬ìš©í•  ìˆ˜ ì—†ëŠ” ì•„ì´ë”” ì…ë‹ˆë‹¤.");
-					else if (!inputpw.equals(inputpwcheck)) // ë¹„ë°€ë²ˆí˜¸ í™•ì¸ ë¶ˆì¼ì¹˜
-						JOptionPane.showMessageDialog(null, "ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
-					else {
-						// ë°ì´í„° íŒŒì¼ì— ì…ë ¥
-						BufferedWriter bos = new BufferedWriter(new FileWriter("user.txt", true));
-						bos.write(t1.getText() + " ");
-						bos.write(t2.getText() + " ");
-						bos.write(t3.getText() + " ");
-						bos.write(t4.getText() + " ");
-						if(yes.isSelected() == true)
-							bos.write("1\n");
-						else if(no.isSelected() == true)
-							bos.write("0\n");
-						bos.close();
-						// ë‹¤ìŒ ë‹¨ê³„ë¡œ
-						JOptionPane.showMessageDialog(null, "íšŒì›ê°€ì… ì„±ê³µ");
-						Login l = new Login(userList);
-						setVisible(false);
-					}
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "íšŒì›ê°€ì… ì‹¤íŒ¨");
-				}
-			}
-		});
-	}
+               if (name.equals("")||phoneNumber.equals("")||id.equals("")||pwd.equals("")) // ¸ğµç Ä­À» ÀÔ·ÂÇÏÁö ¾Ê¾ÒÀ»¶§
+                  JOptionPane.showMessageDialog(null, "ÀÔ·ÂÇÒ ³»¿ëÀ» ¸ğµÎ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+               else if (yes.isSelected() == false && no.isSelected() == false) // ¸éÇã ¿©ºÎ ¼±ÅÃ ¾ÈÇßÀ»¶§
+                  JOptionPane.showMessageDialog(null, "¸éÇã º¸À¯ ¿©ºÎ¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä.");
+               else if (flag == 0) // ¾ÆÀÌµğ È®ÀÎ ¾ÈÇÏ°í °¡ÀÔÇÏ´Â °Í ¹æÁö¿ë
+                  JOptionPane.showMessageDialog(null, "¾ÆÀÌµğ Áßº¹ È®ÀÎÀ» ÇØÁÖ¼¼¿ä.");
+               else if (!pwd.equals(pwdCheck)) // ºñ¹Ğ¹øÈ£ È®ÀÎ ºÒÀÏÄ¡
+                  JOptionPane.showMessageDialog(null, "ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+               else {
+                  String[] userInfo = {name, phoneNumber, id, pwd, license};
+                  RentSystem.userMgr.join(userInfo);
+                  
+                  BufferedWriter bos = new BufferedWriter(new FileWriter("user.txt", true));
+                  bos.newLine();
+                  bos.write(name + " ");
+                  bos.write(phoneNumber + " ");
+                  bos.write(id + " ");
+                  bos.write(pwd + " ");
+                  bos.write(license + " ");
+                  bos.write("end");
+                  bos.close();
+                  JOptionPane.showMessageDialog(null, "È¸¿ø°¡ÀÔ ¼º°ø");
+                  new Login();
+                  setVisible(false);
+               }
+            } catch (Exception ex) {
+               JOptionPane.showMessageDialog(null, "È¸¿ø°¡ÀÔ ½ÇÆĞ");
+            }
+         }
+      });
+   }
 
 }

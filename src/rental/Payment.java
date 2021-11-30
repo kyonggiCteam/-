@@ -6,75 +6,75 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import mgr.Manager;
-// ÇÊ¿ä ¤¤¤¤,,?
-public class Payment extends Manager<Ticket> { // °áÁ¦ ±â´É ¼öÇà
+// í•„ìš” ã„´ã„´,,?
+public class Payment extends Manager<Ticket> { // ê²°ì œ ê¸°ëŠ¥ ìˆ˜í–‰
 //	Brand brand;
 //	String brandName;
 	Ticket ticket;
 	
-	// Ãß°¡ °áÁ¦ ±â´É ¼öÇà -> 1½Ã°£´ç 500¿ø Ãß°¡
+	// ì¶”ê°€ ê²°ì œ ê¸°ëŠ¥ ìˆ˜í–‰ -> 1ì‹œê°„ë‹¹ 500ì› ì¶”ê°€
 	static public void morePay(int diff) {
 		int pay = diff * 500;
 	}
 	
-	// Á¤·ÄÇÔ¼ö
-	void sortByPrice() {
-
-		Collections.sort(RentSystem.payMgr.mList, new Comparator<Ticket>() {
-			public int compare(Ticket t1, Ticket t2) {
-				if(t1.price > t2.price)
-					return 1;
-				if(t1.price < t2.price)
-					return -1;
-				return 0;
-			}
-		});
-	}
-	
-	void sortByPeriod() {
-		Collections.sort(RentSystem.payMgr.mList, new Comparator<Ticket>() {
-			public int compare(Ticket t1, Ticket t2) {
-				if(t1.month > t2.month)
-					return 1;
-				if(t1.month < t2.month)
-					return -1;
-				if(t1.hour > t2.hour)
-					return 1;
-				if(t1.hour < t2.hour)
-					return -1;
-				return 0;
-			}
-		});
-	}
-	
-//	void sortByBrand() {
+	// ì •ë ¬í•¨ìˆ˜
+//	public void sortByPrice() {
+//
 //		Collections.sort(RentSystem.payMgr.mList, new Comparator<Ticket>() {
 //			public int compare(Ticket t1, Ticket t2) {
-//				for(int i = 0; i < t1.brand.brandName.length(); i++) {
-//					if(t1.brand.brandName.charAt(i) > t2.brand.brandName.charAt(i))
-//						return 1; // ¾ç¼ö
-//					if(t1.brand.brandName.charAt(i) < t2.brand.brandName.charAt(i))
-//						return -1; // À½¼ö
-//				}
-//				return 0;  // 0
+//				if(t1.price > t2.price)
+//					return 1;
+//				if(t1.price < t2.price)
+//					return -1;
+//				return 0;
 //			}
 //		});
-	void sortByBrand() {
-	Collections.sort(RentSystem.payMgr.mList, new Comparator<Ticket>() {
-		public int compare(Ticket t1, Ticket t2) {
-			for(int i = 0; i < t1.brandName.length(); i++) {
-				if(t1.brandName.charAt(i) > t2.brandName.charAt(i))
-					return 1; // ¾ç¼ö
-				if(t1.brandName.charAt(i) < t2.brandName.charAt(i))
-					return -1; // À½¼ö
-			}
-			return 0;  // 0
-		}
-	});
-	}
+//	}
+//	
+//	public void sortByPeriod() {
+//		Collections.sort(RentSystem.payMgr.mList, new Comparator<Ticket>() {
+//			public int compare(Ticket t1, Ticket t2) {
+//				if(t1.month > t2.month)
+//					return 1;
+//				if(t1.month < t2.month)
+//					return -1;
+//				if(t1.hour > t2.hour)
+//					return 1;
+//				if(t1.hour < t2.hour)
+//					return -1;
+//				return 0;
+//			}
+//		});
+//	}
+//	
+////	void sortByBrand() {
+////		Collections.sort(RentSystem.payMgr.mList, new Comparator<Ticket>() {
+////			public int compare(Ticket t1, Ticket t2) {
+////				for(int i = 0; i < t1.brand.brandName.length(); i++) {
+////					if(t1.brand.brandName.charAt(i) > t2.brand.brandName.charAt(i))
+////						return 1; // ì–‘ìˆ˜
+////					if(t1.brand.brandName.charAt(i) < t2.brand.brandName.charAt(i))
+////						return -1; // ìŒìˆ˜
+////				}
+////				return 0;  // 0
+////			}
+////		});
+//	public void sortByBrand() {
+//	Collections.sort(RentSystem.payMgr.mList, new Comparator<Ticket>() {
+//		public int compare(Ticket t1, Ticket t2) {
+//			for(int i = 0; i < t1.brandName.length(); i++) {
+//				if(t1.brandName.charAt(i) > t2.brandName.charAt(i))
+//					return 1; // ì–‘ìˆ˜
+//				if(t1.brandName.charAt(i) < t2.brandName.charAt(i))
+//					return -1; // ìŒìˆ˜
+//			}
+//			return 0;  // 0
+//		}
+//	});
+//	}
 		
 		
-//	// Æ÷ÀÎÆ® °è»ê ÇÔ¼ö -> °áÁ¦½Ã ºÒ·¯ÁÜ.
+//	// í¬ì¸íŠ¸ ê³„ì‚° í•¨ìˆ˜ -> ê²°ì œì‹œ ë¶ˆëŸ¬ì¤Œ.
 //	void pointCount(User user, int payment) {
 //		user.point += payment / 100;
 //	}
@@ -83,7 +83,7 @@ public class Payment extends Manager<Ticket> { // °áÁ¦ ±â´É ¼öÇà
 //		if (ticket == null) {
 //			return false;
 //		} else {
-//			System.out.println("Æ¼ÄÏÀ» ÀÌ¹Ì ¼ÒÀ¯ÇÏ°í ÀÖ½À´Ï´Ù");
+//			System.out.println("í‹°ì¼“ì„ ì´ë¯¸ ì†Œìœ í•˜ê³  ìˆìŠµë‹ˆë‹¤");
 //			return true;
 //		}
 //	}
@@ -92,7 +92,7 @@ public class Payment extends Manager<Ticket> { // °áÁ¦ ±â´É ¼öÇà
 //		ticket = find(TicketId);
 //	}
 //	
-//	// Æ¼ÄÏ ±¸ÀÔ. => userÀÇ ticket °ª º¯°æ.	
+//	// í‹°ì¼“ êµ¬ì…. => userì˜ ticket ê°’ ë³€ê²½.	
 //	void buyOnehourTicket(User user) {
 //		if (haveTicket(ticket)) return;
 //	
@@ -112,7 +112,7 @@ public class Payment extends Manager<Ticket> { // °áÁ¦ ±â´É ¼öÇà
 //		
 //		user.ticket = 3;
 //		pointCount(user, 5000);
-//		// ½Ã°£°è»ê
+//		// ì‹œê°„ê³„ì‚°
 //		setTime(user);
 //		user.leftday = 30;
 //	}
@@ -132,7 +132,7 @@ public class Payment extends Manager<Ticket> { // °áÁ¦ ±â´É ¼öÇà
 //		setTime(user);
 //		user.leftday = 30*12;
 //	}
-//	// ½Ã°£ set
+//	// ì‹œê°„ set
 //	void setTime(User user) {
 //		Calendar now = Calendar.getInstance();
 //		user.startyear = now.get(Calendar.YEAR);

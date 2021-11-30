@@ -5,11 +5,16 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.List;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -18,11 +23,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
+
+
 import rental.User;
 
 public class ModifyMyInfo extends JFrame {
+
 	
-	public ModifyMyInfo(ArrayList<User> userList, User user) {
+	public ModifyMyInfo(User user) {
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(500, 500);
@@ -84,11 +92,12 @@ public class ModifyMyInfo extends JFrame {
 		yes.setBounds(190, 260, 50, 30);
 		no.setBounds(250, 260, 50, 30);
 		btn_mdf.setBounds(203, 370, 80, 30);
-		btn_bck.setBounds(350, 390, 70, 30);
+		btn_bck.setBounds(350, 390, 100, 30);
 
 		setVisible(true);
 		
 		btn_mdf.addActionListener(new ActionListener() {
+			@SuppressWarnings("null")
 			@Override
 			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
 				// TODO Auto-generated method stub
@@ -107,36 +116,65 @@ public class ModifyMyInfo extends JFrame {
 						JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.");
 					else {
 						// 데이터 파일에 입력
+						BufferedReader bur = new BufferedReader(new FileReader("user.txt"));
 						BufferedWriter bos = new BufferedWriter(new FileWriter("user.txt", true));
-						/*
-						유저리스트를 가지고 와서 인덱스 등의 방법을 이용해 유저를 찾아서 유저부분만 수정하도록 메소드를 짜야함
-						유저리스트가 오지 않아 위 기능을 구현하지 못함
-						현재는 새로운 데이터로 저장되는 방식임
-						 */
-						bos.write(tfname.getText() + " ");
-						bos.write(tftellnum.getText() + " ");
-						bos.write(user.id + " ");
-						bos.write(tfpwd.getText() + " ");
-						if(yes.isSelected() == true)
-							bos.write("1\n");
-						else if(no.isSelected() == true)
-							bos.write("0\n");
+						
+						
+						ArrayList <String[]> arrays = new ArrayList<String[]>(); 
+						String str = null;
+						while ((str = bur.readLine())!=null) {
+							String[] strarr = str.split(" ");
+							if(strarr.length>0) arrays.add(strarr);
+							
+							if (strarr[2].matches(user.id)) {
+								strarr[0] = inputname;
+								strarr[1] = inputtelnum;
+								strarr[2] = user.id;
+								strarr[3] = inputpw;
+								if(yes.isSelected() == true)
+									strarr[4] = "1";
+								else if(no.isSelected() == true)
+									strarr[4] = "0";
+							}
+						}
+						
+						
+						new FileOutputStream("user.txt").close();
+						
+						for (int i=0; i < arrays.size(); i++) {
+							String[] outputarr = arrays.get(i);
+							for (int k=1; k < outputarr.length; k++) {
+								outputarr[0] = outputarr[0] + " " + outputarr[k];
+							}
+							String oneLine = outputarr[0];
+							if (i==arrays.size()-1) {
+								bos.write(oneLine);
+							}
+							else {
+								bos.write(oneLine + "\n");
+							}
+						}
+						
+						bur.close();
 						bos.close();
+						
 						// 유저 정보 변경
 						user.name = inputname;
 						user.phoneNumber = inputtelnum;
 						user.pwd = inputpw;
+						
 						if(yes.isSelected() == true)
 							user.license = 1;
 						else if(no.isSelected() == true)
 							user.license = 0;
+						
 						// 다음 단계로
 						JOptionPane.showMessageDialog(null, "내 정보가 수정되었습니다.");
-						MyPage m = new MyPage(userList, user);
+						MyPage m = new MyPage(user);
 						setVisible(false);
 					}
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "회원가입 실패");
+					JOptionPane.showMessageDialog(null, "정보 수정에 실패했습니다.");
 				}
 			}
 		});;
@@ -145,7 +183,7 @@ public class ModifyMyInfo extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
 				// TODO Auto-generated method stub
-				MyPage m = new MyPage(userList, user);
+				MyPage m = new MyPage(user);
 				setVisible(false); // 창 안보이게 하기 
 			}
 		});;
