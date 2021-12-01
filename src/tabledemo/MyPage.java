@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,10 +33,10 @@ public class MyPage extends JFrame {
 		JPanel bottom3 = new JPanel();
 		
 		JButton btn_mdf = new JButton("회원정보 수정");
-		JButton btn_bck = new JButton("돌아가기");
+		JButton btn_bck = new JButton("뒤로가기");
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(500, 500);
+		setSize(300, 400);
 		setLocationRelativeTo(null);
 		
 		String flaglcs = null;
@@ -47,24 +48,34 @@ public class MyPage extends JFrame {
 			
 		// user.ticket 없어도 들어가져야 함.
 		String tick = null;
-		if( user.ticket == null)
+		if(user.ticket == null)
 			tick = "";
 		else
 			tick = user.ticket.code;
 		
-		String str1 = "현재 회원정보";
-		String str2 = "- 이름: " + user.name;
-		String str3 = "- 아이디: " + user.id;
-		String str4 = "- 전화번호: " + user.phoneNumber;
-		String str5 = "- 면허: " + flaglcs;
-		String str6 = "- 보유한 티켓번호: " + tick;
-		String str7 = "- 보유 포인트: " + user.point;
+		//String str1 = "현재 회원정보";
+		String str2 = " 이름: " + user.name;
+		String str3 = " 아이디: " + user.id;
+		String str4 = " 전화번호: " + user.phoneNumber;
+		String str5 = " 면허: " + flaglcs;
+		String str6 = " 보유 티켓번호: " + tick;
+		String str7 = " 보유 포인트: " + user.point + " point";
 		
 		setTitle("MyPage");
 	    	
 		Container pane = getContentPane();
 		pane.setLayout(new BorderLayout());
 		bottom.setLayout(new GridLayout(1, 3));
+		
+		top.setBackground(new Color(240, 248, 239));
+		bottom1.setBackground(new Color(240, 248, 239));
+		bottom2.setBackground(new Color(240, 248, 239));
+		bottom3.setBackground(new Color(240, 248, 239));
+		
+		btn_mdf.setBorderPainted(false); // 버튼 테두리 설정해제
+		btn_mdf.setBackground(new Color(153, 231,35));
+		btn_bck.setBorderPainted(false); // 버튼 테두리 설정해제
+		btn_bck.setBackground(new Color(153, 231,35));
 			
 		pane.add(top, BorderLayout.PAGE_START);
 		pane.add(bottom, BorderLayout.PAGE_END);
@@ -77,13 +88,13 @@ public class MyPage extends JFrame {
 		bottom1.add(btn_bck);
 		bottom2.add(btn_mdf);
 		
+		myInfo.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		myInfo.setOpaque(true);
-		myInfo.setBackground(new Color(0, 250, 0));
+		myInfo.setBackground(new Color(240, 248, 239));
 		
 		myInfo.setHorizontalAlignment(JLabel.CENTER);
-		myInfo.setText("<html>"+str1+"<br>"+str2+"<p>"+str3+"<p>"+str4+"<p>"+str5+"<p>"+str6+"<p>"+str7+"</html>"); // 텍스트 줄바꿈
-		
-		
+		//myInfo.setText("<html>"+str1+"<br>"+str2+"<p>"+str3+"<p>"+str4+"<p>"+str5+"<p>"+str6+"<p>"+str7+"</html>"); // 텍스트 줄바꿈
+		myInfo.setText("<html>"+str2+"<p>"+str3+"<p>"+str4+"<p>"+str5+"<p>"+str6+"<p>"+str7+"</html>"); // 텍스트 줄바꿈
 		
 		setVisible(true);
 		
@@ -92,7 +103,7 @@ public class MyPage extends JFrame {
 			public void actionPerformed(ActionEvent e) {//정보수정 창으로 이동.
 				// TODO Auto-generated method stub
 				ModifyMyInfo m = new ModifyMyInfo(user);
-				setVisible(false); // 창 안보이게 하기 
+				dispose(); // 창 안보이게 하기 
 			}
 		});;
 		
@@ -100,8 +111,8 @@ public class MyPage extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {//메뉴로 이동
 				// TODO Auto-generated method stub
-				Table t = new Table(user);
-				setVisible(false); // 창 안보이게 하기
+				MainMenu t = new MainMenu(user);
+				dispose(); // 창 안보이게 하기
 			}
 		});;
 		    

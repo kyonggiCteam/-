@@ -1,6 +1,7 @@
 package tabledemo;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -33,9 +34,11 @@ public class ModifyMyInfo extends JFrame {
 	public ModifyMyInfo(User user) {
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(500, 500);
+		setSize(350, 350);
 		setLocationRelativeTo(null);
-		
+		Container c = getContentPane();
+		c.setLayout(null);
+		c.setBackground(new Color(240, 248, 239));
     	setTitle("내 정보 수정");
     	
     	getContentPane().setLayout(null);
@@ -47,17 +50,25 @@ public class ModifyMyInfo extends JFrame {
 		Label l_pwdcheck = new Label("패스워드 확인");
 		Label l_license = new Label("면허 유무");
 		
-		add(l_name);
-		add(l_tellnum);
-		add(l_pwd);
-		add(l_pwdcheck);
-		add(l_license);
+		c.add(l_name);
+		c.add(l_tellnum);
+		c.add(l_pwd);
+		c.add(l_pwdcheck);
+		c.add(l_license);
 		
-		JButton btn_bck = new JButton("돌아가기");
-		add(btn_bck);
+		JButton btn_bck = new JButton("뒤로가기");
+		
+		btn_bck.setBorderPainted(false); // 버튼 테두리 설정해제
+	    btn_bck.setBackground(new Color(153, 231,35));
+		
+	    c.add(btn_bck);
 		
 		JButton btn_mdf = new JButton("수정");
-		add(btn_mdf);
+		
+		btn_mdf.setBorderPainted(false); // 버튼 테두리 설정해제
+	    btn_mdf.setBackground(new Color(153, 231,35));
+		
+	    c.add(btn_mdf);
 		
 		TextField tfname = new TextField();
 		TextField tftellnum = new TextField();
@@ -67,35 +78,42 @@ public class ModifyMyInfo extends JFrame {
 		tfpwd.setEchoChar('*'); // 패스워드
 	    tfpwdcheck.setEchoChar('*');
 		
-		add(tfname);
-		add(tftellnum);
-		add(tfpwd);
-		add(tfpwdcheck);
+	    c.add(tfname);
+	    c.add(tftellnum);
+	    c.add(tfpwd);
+	    c.add(tfpwdcheck);
 		
 		JRadioButton yes = new JRadioButton("O");
 		JRadioButton no = new JRadioButton("X");
 		ButtonGroup bg = new ButtonGroup();
-		bg.add(yes); add(yes);
-	    bg.add(no); add(no);
+		
+		yes.setBorderPainted(false); // 버튼 테두리 설정해제
+	    yes.setBackground(new Color(240, 248, 239));
+	    no.setBorderPainted(false); // 버튼 테두리 설정해제
+	    no.setBackground(new Color(240, 248, 239));
+		
+		bg.add(yes); c.add(yes);
+	    bg.add(no); c.add(no);
 	    
-		l_name.setBounds(90, 100, 40, 40);
-		l_tellnum.setBounds(90, 140, 50, 40);
-		l_pwd.setBounds(90, 180, 40, 40);
-		l_pwdcheck.setBounds(90, 220, 50, 40);
-		l_license.setBounds(90, 260, 75, 40);
+		l_name.setBounds(40, 20, 40, 40);
+		l_tellnum.setBounds(40, 60, 50, 40);
+		l_pwd.setBounds(40, 100, 50, 40);
+		l_pwdcheck.setBounds(40, 140, 75, 40);
+		l_license.setBounds(40, 180, 75, 40);
 
-		tfname.setBounds(175, 100, 170, 30);
-		tftellnum.setBounds(175, 140, 170, 30);
-		tfpwd.setBounds(175, 180, 170, 30);
-		tfpwdcheck.setBounds(175, 220, 170, 30);
+		tfname.setBounds(125, 20, 170, 30);
+		tftellnum.setBounds(125, 60, 170, 30);
+		tfpwd.setBounds(125, 100, 170, 30);
+		tfpwdcheck.setBounds(125, 140, 170, 30);
 
-		yes.setBounds(190, 260, 50, 30);
-		no.setBounds(250, 260, 50, 30);
-		btn_mdf.setBounds(203, 370, 80, 30);
-		btn_bck.setBounds(350, 390, 100, 30);
+		yes.setBounds(125, 180, 50, 30);
+		no.setBounds(180, 180, 50, 30);
+		btn_mdf.setBounds(120, 220, 100, 40);
+		btn_bck.setBounds(25, 270, 85, 30);
 
 		setVisible(true);
 		
+		//수정
 		btn_mdf.addActionListener(new ActionListener() {
 			@SuppressWarnings("null")
 			@Override
@@ -171,20 +189,20 @@ public class ModifyMyInfo extends JFrame {
 						// 다음 단계로
 						JOptionPane.showMessageDialog(null, "내 정보가 수정되었습니다.");
 						MyPage m = new MyPage(user);
-						setVisible(false);
+						dispose();
 					}
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "정보 수정에 실패했습니다.");
 				}
 			}
 		});;
-		
+		// 뒤로가기
 		btn_bck.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
 				// TODO Auto-generated method stub
 				MyPage m = new MyPage(user);
-				setVisible(false); // 창 안보이게 하기 
+				dispose(); // 창 안보이게 하기 
 			}
 		});;
 		

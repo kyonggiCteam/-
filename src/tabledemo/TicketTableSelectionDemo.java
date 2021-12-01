@@ -1,6 +1,7 @@
 package tabledemo;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -40,13 +41,11 @@ public class TicketTableSelectionDemo extends JPanel implements ActionListener, 
     User user;
     Rent rent;
 	String[] rowTexts = new String[6];
-
 	RentSpot spot;
 //    Payment payMgr = new Payment();
 
-	public TicketTableSelectionDemo(int sortOpt, User user, Rent rent, RentSpot spot) {
+	public TicketTableSelectionDemo(int sortOpt, User user, RentSpot spot) { //정렬 방법, 유저 정보, 정류장 정보
 		super(new BorderLayout());
-		this.rent = rent;
 		this.user = user;
 		this.spot = spot;
 		ticketTableInit(sortOpt);
@@ -82,7 +81,6 @@ public class TicketTableSelectionDemo extends JPanel implements ActionListener, 
 			RentSystem.ticketMgr.sortByBrand(RentSystem.ticketMgr.mList);
 			break;
 		}
-
 		for (Ticket t : RentSystem.ticketMgr.mList)
 			tableModel.addRow(t.getTexts());
 		
@@ -90,10 +88,10 @@ public class TicketTableSelectionDemo extends JPanel implements ActionListener, 
 		
 		// 수정한 방법
 
-		ArrayList <Ticket> searchList = new ArrayList<>();
+		ArrayList <Ticket> searchList = new ArrayList<>(); // 정류장이 가지는 브랜드들의 티켓들 리스트
 		ArrayList <Brand> brandList = new ArrayList<>();
 		
-		for (String str: spot.brandNameList) {	
+		for (String str: spot.brandNameList) {
 			brandList.add(RentSystem.brandMgr.find(str));
 		}
 		
@@ -131,24 +129,26 @@ public class TicketTableSelectionDemo extends JPanel implements ActionListener, 
 
 	JPanel makeBottomPane() {
 		JPanel pane = new JPanel();
-		/*
-		 * pane.setLayout(new GridLayout(2, 1));
-		 * 
-		 * JPanel center = new JPanel(); center.setLayout(new FlowLayout()); for (int i
-		 * = 0; i < 5; i++) { edits[i] = new JTextField("", 10); center.add(edits[i]); }
-		 * JButton editBtn = new JButton("저장"); editBtn.setActionCommand("Done");
-		 * editBtn.addActionListener(this); center.add(editBtn); pane.add(center);
-		 */
 
 		JPanel bottom = new JPanel();
+		
 		bottom.setLayout(new FlowLayout());
-		JButton buttons[] = new JButton[3];
-		String btnTexts[] = { "돌아가기", "티켓보유중", "티켓결제" };
-		for (int i = 0; i < 3; i++) {
-			buttons[i] = new JButton(btnTexts[i]);
-			buttons[i].addActionListener(this);
-			bottom.add(buttons[i]);
-		}
+		JButton buttons1 = new JButton("돌아가기");
+		buttons1.setBorderPainted(false);
+		buttons1.setBackground(new Color(153, 231,35));
+		buttons1.addActionListener(this);
+		bottom.add(buttons1);
+		JButton buttons2 = new JButton("티켓보유중");
+		buttons2.setBorderPainted(false);
+		buttons2.setBackground(new Color(153, 231,35));
+		buttons2.addActionListener(this);
+		bottom.add(buttons2);
+		JButton buttons3 = new JButton("티켓결제");
+		buttons3.setBorderPainted(false);
+		buttons3.setBackground(new Color(153, 231,35));
+		buttons3.addActionListener(this);
+		bottom.add(buttons3);
+		
 		pane.add(bottom);
 		return pane;
 	}
@@ -180,19 +180,20 @@ public class TicketTableSelectionDemo extends JPanel implements ActionListener, 
 	}
 
 	public void actionPerformed(ActionEvent e) {
-//		DefaultTableModel data = (DefaultTableModel) (table.getModel());		
+//		DefaultTableModel data = (DefaultTableModel) (table.getModel());
+		// 티켓 찾아주기
+		Ticket ticket = RentSystem.ticketMgr.find(rowTexts[5]);
     	
 		if (e.getActionCommand().equals("돌아가기")) {
 			new RentReturn(user,spot);
-			rent.setVisible(false);
+			Rent.getInstance().dispose();
 
 		} else if (e.getActionCommand().equals("티켓보유중")) {
 			if (user.ticket != null) {
 				JOptionPane.showMessageDialog(null, "현재 보유 중인 티켓은 " + user.ticket.code + " 입니다."); // +뒤에 보유중인 티켓 뜨도록
-				//정보 받기
-				new GUI_Payment(user, rowTexts, spot); // user정보와 ticket넘겨줘야할듯 
-				// GUI_Payment 창이 아니라 CheckBike 창을 불러야 함. 티켓이 있으므로 결재 필요 없음...
-				rent.setVisible(false);
+				// GUI_Payment 창이 아니라 CheckBike 창을 불러야 함. 티켓이 있으므로 결재 필요 없음
+				new CheckBike(user, spot);
+				Rent.getInstance().dispose();
 			} else {
 				JOptionPane.showMessageDialog(null, "보유중인 티켓이 없습니다.");
 			}
@@ -206,8 +207,8 @@ public class TicketTableSelectionDemo extends JPanel implements ActionListener, 
 				JOptionPane.showMessageDialog(null, "티켓을 가지고 있습니다.");
 			}
 			else {
-				new GUI_Payment(user, rowTexts, spot);
-				rent.setVisible(false);
+				new GUI_Payment(user, ticket, spot);  // user 내용 / 클릭한 내용 / 정류소 내용
+				Rent.getInstance().dispose();
 			}
 		}
 	}

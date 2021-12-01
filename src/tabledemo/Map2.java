@@ -1,5 +1,6 @@
 package tabledemo;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -24,27 +25,47 @@ import rental.User;
 //import tabledemo.Map1.MyActionListener;
 
 public class Map2 extends JPanel implements ActionListener{
-	JButton j1 = new JButton("A 경기대후문");
-	JButton j2 = new JButton("B 세븐일레븐광교점");
-	JButton j3 = new JButton("C 시은소교회");
-	JButton j4 = new JButton("D 동물병원동행");
-	JButton j5 = new JButton("E 꿈의교회");
-	JButton j6 = new JButton("F 광교E편한세상아파트");
-	JButton j7 = new JButton("G 뚜레쥬르광교로점");
-	JButton j8 = new JButton("H 광교푸르지오");
+	// 장안구
+	JButton j1 = new JButton("A 수원보훈원우체국");
+	JButton j2 = new JButton("B 꿈마루어린이집");
+	JButton j3 = new JButton("C 효준아파트");
+	JButton j4 = new JButton("D 팔복빌딩");
+	JButton j5 = new JButton("E 경기대한의원");
+	JButton j6 = new JButton("F 신미주아파트");
+	JButton j7 = new JButton("G 창용초등학교");
+	JButton j8 = new JButton("H CU편의점목화아파트");
 	JButton back = new JButton("뒤로가기");
 	User user;
 	RentSpot spot;
-	Map map;
 
-	Image img = new ImageIcon("image/background.png").getImage();
 
-	Map2(User user, Map m) {
+	Image img = new ImageIcon("장안구.png").getImage();
+
+	Map2(User user) {
 		this.user = user;
-		map = m;
 		setLayout(null);
 		setSize(700, 500);
 		setVisible(false);
+		
+		j1.setBorderPainted(false); // 버튼 테두리 설정해제
+		j1.setBackground(new Color(41, 175,76));
+		j2.setBorderPainted(false); // 버튼 테두리 설정해제
+		j2.setBackground(new Color(41, 175,76));
+		j3.setBorderPainted(false); // 버튼 테두리 설정해제
+		j3.setBackground(new Color(41, 175,76));
+		j4.setBorderPainted(false); // 버튼 테두리 설정해제
+		j4.setBackground(new Color(41, 175,76));
+		j5.setBorderPainted(false); // 버튼 테두리 설정해제
+		j5.setBackground(new Color(41, 175,76));
+		j6.setBorderPainted(false); // 버튼 테두리 설정해제
+		j6.setBackground(new Color(41, 175,76));
+		j7.setBorderPainted(false); // 버튼 테두리 설정해제
+		j7.setBackground(new Color(41, 175,76));
+		j8.setBorderPainted(false); // 버튼 테두리 설정해제
+		j8.setBackground(new Color(41, 175,76));
+		back.setBorderPainted(false); // 버튼 테두리 설정해제
+		back.setBackground(new Color(153, 231,35));
+		
 		// setBounds(가로위치, 세로위치, 가로길이, 세로길이);
 		j1.setBounds(610, 10, 165, 30);
 		add(j1);
@@ -78,8 +99,8 @@ public class Map2 extends JPanel implements ActionListener{
 			@Override
 			public void actionPerformed(ActionEvent e) { // 뒤로가기
 				// TODO Auto-generated method stub
-				new Table(user);
-				m.setVisible(false); // 창 안보이게 하기 
+				new MainMenu(user);
+				Map.getInstance().dispose(); // 창 안보이게 하기 
 			}
 		});
 	}
@@ -105,7 +126,7 @@ public class Map2 extends JPanel implements ActionListener{
 			
 			ArrayList <String[]> arrays = new ArrayList<String[]>(); 
 			String str = null;
-			int add = 5; // 즐겨찾기 최대 갯수 판별용
+			int add = 8; // 즐겨찾기 최대 갯수 판별용
 			
 
 			// yes 선택 시 option=0 , no 선택 시 option=1
@@ -119,7 +140,7 @@ public class Map2 extends JPanel implements ActionListener{
 						if(strarr.length>0) arrays.add(strarr);
 						
 						if (strarr[2].matches(user.id)) {
-							for (int i=5;!strarr[i].equals("end");i++) {
+							for (int i=8;!strarr[i].equals("end");i++) {
 								if (strarr[i].equals(spotname)) {
 									for (int j=i;!strarr[j].equals("end");j++) {
 										strarr[j]=strarr[j+1];
@@ -164,17 +185,17 @@ public class Map2 extends JPanel implements ActionListener{
 						if(strarr.length>0) arrays.add(strarr);
 						
 						if (strarr[2].matches(user.id)) {
-							for (int i=5;!strarr[i].equals("end");i++) {
+							for (int i=8;!strarr[i].equals("end");i++) {
 								add = i+1;
 								
 							}
-							if (add<=7) {
+							if (add<=10) {
 								strarr[add] = spotname + " end";
 								user.oftenSpotList.add(spotname);
 							}
 						}
 					}
-					if (add>=8) 
+					if (add>=11) 
 						JOptionPane.showMessageDialog(null, "즐겨찾기는 최대 3개의 정류소까지만 선택하실 수 있습니다.");
 					
 					
@@ -202,7 +223,7 @@ public class Map2 extends JPanel implements ActionListener{
 			 ex.printStackTrace();
 		}
 		
-		map.setVisible(false); // 창 안보이게 하기
+		Map.getInstance().dispose(); // 창 안보이게 하기
 	}	
 	
 }

@@ -1,5 +1,6 @@
 package tabledemo;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Label;
 import java.awt.TextField;
@@ -29,10 +30,15 @@ public class Join extends JFrame {
 //      p.setLayout(null);
 	  Container c = getContentPane();
 	  c.setLayout(null);
+	  c.setBackground(new Color(240, 248, 239));
 	  
-      JButton btn_bck = new JButton("back");
+      JButton btn_bck = new JButton("뒤로가기");
+      btn_bck.setBorderPainted(false); // 버튼 테두리 설정해제
+      btn_bck.setBackground(new Color(153, 231,35));
       c.add(btn_bck);
       JButton btn_chk = new JButton("확인");
+      btn_chk.setBorderPainted(false); // 버튼 테두리 설정해제
+      btn_chk.setBackground(new Color(153, 231,35));
       c.add(btn_chk);
       
       Label[] label = { new Label("이름"), new Label("전화번호"), new Label("아이디"),
@@ -48,12 +54,18 @@ public class Join extends JFrame {
       JRadioButton yes = new JRadioButton("O");
       JRadioButton no = new JRadioButton("X");
       ButtonGroup bg = new ButtonGroup();
+      yes.setBorderPainted(false); // 버튼 테두리 설정해제
+      yes.setBackground(new Color(240, 248, 239));
+      no.setBorderPainted(false); // 버튼 테두리 설정해제
+      no.setBackground(new Color(240, 248, 239));
       
       bg.add(yes); add(yes);
       bg.add(no); add(no);
       text[3].setEchoChar('*'); // 패스워드
       text[4].setEchoChar('*'); // 패스워드 확인
       JButton j1 = new JButton("가입");
+      j1.setBorderPainted(false); // 버튼 테두리 설정해제
+      j1.setBackground(new Color(153, 231,35));
       c.add(j1);
       setSize(400, 400);
       // 프레임을 화면 가운데에 배치
@@ -74,8 +86,8 @@ public class Join extends JFrame {
       text[4].setBounds(125, 180, 170, 30);
       yes.setBounds(125, 220, 50, 30);
       no.setBounds(180, 220, 50, 30);
-      j1.setBounds(153, 290, 80, 30);
-      btn_bck.setBounds(300, 320, 70, 30);
+      j1.setBounds(153, 270, 100, 40);
+      btn_bck.setBounds(25, 320, 85, 30);
       btn_chk.setBounds(305, 100, 60, 28);
      // add(p);
       setTitle("회원가입");
@@ -87,7 +99,7 @@ public class Join extends JFrame {
          public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
             // TODO Auto-generated method stub
             new LoginJoin();
-            setVisible(false); // 창 안보이게 하기 
+            dispose(); // 창 안보이게 하기 
          }
       });;
       
@@ -144,7 +156,7 @@ public class Join extends JFrame {
                   bos.close();
                   JOptionPane.showMessageDialog(null, "회원가입 성공");
                   new Login();
-                  setVisible(false);
+                  dispose();
                }
             } catch (Exception ex) {
                JOptionPane.showMessageDialog(null, "회원가입 실패");

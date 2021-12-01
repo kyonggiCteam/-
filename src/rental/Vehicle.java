@@ -10,12 +10,14 @@ import mgr.Manageable;
 public class Vehicle implements Manageable {
 
 	public String code;  // 전동킥보드 : 첫 글자 S, 자전거: 첫 글자 B
-	String brandName;
+	public String brandName;
 //	boolean crush;
 	int state; // 0: 이용가능 1: 이용중 -1: 고장
 	public ArrayList<String> optionList = new ArrayList<>();
 	int starthour;
 	int startmin;
+	
+
 	
 	// 시간 저장 함수
 	void setTime() {

@@ -12,6 +12,9 @@ public class User implements Manageable {
 	public String id;
 	public String pwd;
 	public int license; // 0: 면허 미보유  1: 면허 보유
+	public String ticketCode; // 1201 수정
+	public String vehicleCode;// 1201 수정
+	
 	
 	public Vehicle vehicle;
 	public int point;
@@ -22,7 +25,7 @@ public class User implements Manageable {
 	int startdate;
 	// 남은 날짜 -> 이거 갱신이 필요한데 => 로그인 할때마다 갱신하는 거 어떨까
 	// 로그인 할때 정기권 유무 확인후, 현재 날짜, 시작 날짜 비교해서 남은 날짜 계산.
-	int leftday;
+	public int leftday;
 	HashSet<RentSpot> favoriteSpotList = new HashSet<>(); //즐겨찾는 대여소
 	public ArrayList<String> oftenSpotList = new ArrayList<>();
 	
@@ -33,6 +36,9 @@ public class User implements Manageable {
 		id = scan.next();
 		pwd = scan.next();
 		license = scan.nextInt();	
+		ticketCode = scan.next(); // 1201 수정
+		vehicleCode = scan.next(); // 1201 수정
+		point = scan.nextInt(); // 1201 수정
 		String spotName = null;
 		while(true) {
 			spotName = scan.next();

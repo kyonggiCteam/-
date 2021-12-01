@@ -9,7 +9,7 @@ public class Ticket implements Manageable {
 	public String code;
 	public String brandName;
 	public int price;
-	String ticketType;
+	public String ticketType;
 	int hour;
 	int month;
 	

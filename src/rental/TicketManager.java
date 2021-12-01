@@ -16,13 +16,36 @@ public class TicketManager extends Manager<Ticket> { // 결제 기능 수행
 //	String brandName;
 	Ticket ticket;
 	
+	// 티켓 결제( 콘솔 상의 것 수정)
+	public void buyTicket(Ticket ticket,  User user) { // user에 티켓 넣어줌 + 시간계산 + 포인트 계산
+		if(ticket.ticketType.equals("정기권")) { // 시간 계산 필요.
+			startTicket(user);
+		}
+		// 포인트도 계산
+		pointCount(ticket.price, user);
+		user.ticket = ticket;
+	}
 	
+	// 시간 세팅 
+	void startTicket(User user) { // user 변수 시간 넣어줌
+		Calendar now = Calendar.getInstance();
+		user.startyear = now.get(Calendar.YEAR);
+		user.startmonth = now.get(Calendar.MONTH);
+		user.startdate = now.get(Calendar.DATE);
+		System.out.printf("시작 시간: %d년 %d 월 %d 일" , user.startyear, user.startmonth + 1, user.startdate);
+	}
+	
+	// 포인트 계산 함수
+	void pointCount(int price, User user) {
+		user.point += (int) (price * 0.01); // 1% 적립
+	}
 	// 추가 결제 기능 수행 -> 1시간당 500원 추가
-	static public void morePay(int diff) {
-		int pay = diff * 500;
+	public int morePay(int usemin) {
+		return ( (usemin / 60 ) + 1 ) * 500;
 	}
 	
 	// 정렬함수
+	//가격 정렬
 	public void sortByPrice(ArrayList <Ticket> ticketList) {
 
 		Collections.sort(ticketList, new Comparator<Ticket>() {
@@ -35,7 +58,7 @@ public class TicketManager extends Manager<Ticket> { // 결제 기능 수행
 			}
 		});
 	}
-	
+	// 기간 정렬
 	public void sortByPeriod(ArrayList <Ticket> ticketList) {
 		Collections.sort(ticketList, new Comparator<Ticket>() {
 			public int compare(Ticket t1, Ticket t2) {
@@ -64,6 +87,7 @@ public class TicketManager extends Manager<Ticket> { // 결제 기능 수행
 //				return 0;  // 0
 //			}
 //		});
+	// 브랜드 이름 따라
 	public void sortByBrand(ArrayList <Ticket> ticketList) {
 		Collections.sort(ticketList, new Comparator<Ticket>() {
 			public int compare(Ticket t1, Ticket t2) {
@@ -78,7 +102,7 @@ public class TicketManager extends Manager<Ticket> { // 결제 기능 수행
 		});
 	}
 	
-	//브랜드 따라 정리한 리스트
+	// ??
 	public ArrayList <Ticket> extractticketList(String brandname) {
 		
 		ArrayList <Ticket> removeList = new ArrayList<>();

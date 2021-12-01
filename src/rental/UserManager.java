@@ -14,8 +14,8 @@ public class UserManager extends Manager<User> {
 	RentSpot rentSpot;
 	RentSpot returnSpot;
 	
-	// 회원 가입
-//	public void join(Scanner scan) {	
+
+	// 회원가입
 	public void join(String[] userInfo) {	
 		User user = new User();
 		user.name = userInfo[0];
@@ -23,19 +23,6 @@ public class UserManager extends Manager<User> {
 		user.id = userInfo[2];
 		user.pwd = userInfo[3];
 		user.license = Integer.parseInt(userInfo[4]);		
-//		System.out.println("회원 정보(이름, 전화번호, 아이디, 비밀번호, 면허증보유여부(0 or 1)를 입력해주세요.");
-//		user.read(scan);
-//		if (idDuplicate(user.id)) {
-//			System.out.println("이미 사용 중인 아이디입니다.");
-//			return;
-//		}
-//		System.out.println(">> 사용 가능한 아이디입니다.");
-//		System.out.print("비밀번호 확인: ");
-//		String checkpw = scan.next();
-//		if(!user.passwordMatch(checkpw)) {
-//			System.out.println(">> 비닐번호가 올바르지 않습니다.");
-//			return;
-//		}
 		mList.add(user);
 	}
 	
@@ -104,48 +91,36 @@ public class UserManager extends Manager<User> {
 		}
 	}
 
-	// 티켓 결제
-	boolean buyTicket(Scanner scan) {
-		if (user.ticket != null) {
-			System.out.printf(">> 현재 보유 중인 티켓은 %s입니다.\n", user.ticket.code);
-			return true;
-		}
-		
-		System.out.print("구매하고 싶은 티켓을 고르세요(ticketCode 입력) ");
-		String ticketCode = scan.next();
-		Ticket ticket = RentSystem.ticketMgr.find(ticketCode);
-		
-		if (ticket == null) {
-			System.out.println("존재하지 않는 티켓입니다.");
-			return false;
-		}
-		// 결제 화면
-		System.out.printf("선택하신 티켓은 %s (%d원)입니다. 결제하시겠습니까?\n현재 보유 포인트는 %d입니다.\n"
-									, ticket.code, ticket.price, user.point);
-		// 결제 수행
-		String answer = scan.next();
-		if (answer.contentEquals("y")) {
-			user.ticket = ticket;
-			startTicket();
-			return true;
-		} else {
-			System.out.println("결제가 취소되었습니다.");
-			return false;
-		}
-	}
+	//- --------------------------------------
+	// 티켓 결제( 콘솔 상의 것 수정)
+//	public void buyTicket(Ticket ticket,  User user) { // user에 티켓 넣어줌 + 시간계산 + 포인트 계산
+//		if(ticket.ticketType.equals("정기권")) { // 시간 계산 필요.
+//			startTicket(user);
+//		}
+//		// 포인트도 계산
+//		pointCount(ticket.price, user);
+//		user.ticket = ticket;
+//	}
+//	
+//	// 시간 세팅 
+//	void startTicket(User user) { // user 변수 시간 넣어줌
+//		Calendar now = Calendar.getInstance();
+//		user.startyear = now.get(Calendar.YEAR);
+//		user.startmonth = now.get(Calendar.MONTH);
+//		user.startdate = now.get(Calendar.DATE);
+//		System.out.printf("시작 시간: %d년 %d 월 %d 일" , user.startyear, user.startmonth + 1, user.startdate);
+//	}
+//	
+//	// 포인트 계산 함수
+//	void pointCount(int price, User user) {
+//		user.point += (int) (price * 0.01); // 1% 적립
+//	}
 	
-	// 시간 세팅 --> RentManager?
-	void startTicket() {
-		System.out.println(">> 결제가 완료되었습니다! *일일권은 장비 최초 대여 시 이용권 이용이 시작됩니다.*");
-		Calendar now = Calendar.getInstance();
-		user.startyear = now.get(Calendar.YEAR);
-		user.startmonth = now.get(Calendar.MONTH) + 1;
-		user.startdate = now.get(Calendar.DATE);
-	}
+	// ---------------------------------------------
 	
 	void rentalVehicle(Scanner scan) { // 장비 대여
-		if (!buyTicket(scan)) // 티켓 구매(결제) => 결제 취소 시 대여 종료
-			return;
+//		if (!buyTicket(scan)) // 티켓 구매(결제) => 결제 취소 시 대여 종료
+//			return;
 		if (user.vehicle != null) {
 			System.out.println(">> 이미 장비를 대여중입니다.");
 			return;
@@ -207,21 +182,21 @@ public class UserManager extends Manager<User> {
 		if(user.ticket.hour == 1) { // 1시간권
 			if( (nowh - tmp.starthour) == 1 && nowm > tmp.startmin ) { // 1시간 추가 계산
 				// 추가 계산 함수 호출 -> 1시간당 500원 추가
-				TicketManager.morePay(1);
+				//TicketManager.morePay(1);
 			}
 			if((nowh - tmp.starthour) > 1) {  // nowh - tmp.starthour 차이 만큼 추가 계산
 				// 추가 계산 함수 호출
-				TicketManager.morePay(nowh - tmp.starthour);
+				//TicketManager.morePay(nowh - tmp.starthour);
 			}
 		}
 		if(user.ticket.hour == 2) { // 2시간권
 			if( (nowh - tmp.starthour) == 2 && nowm > tmp.startmin) { // 1시간 추가
 				// 추가 계산 함수 호출
-				TicketManager.morePay(1);
+				//TicketManager.morePay(1);
 			}
 			if((nowh - tmp.starthour) > 2) { // 차이만큼 추가 계산
 				// 추가 계산 함수 호출
-				TicketManager.morePay(nowh - tmp.starthour);
+				//.morePay(nowh - tmp.starthour);
 			}
 		}
 		
@@ -229,16 +204,13 @@ public class UserManager extends Manager<User> {
 		user.vehicle.state = 0;  // 이용 가능한 상태로 전환
 		user.vehicle = null;
 		rentSpot.vehicleList.add(tmp); // 반납 ==> state 쓰면 필요 없을 듯..?
-		pointCount(user.ticket.price); // 맞나?
+		//pointCount(user.ticket.price); // 맞나?
 	}
 	
-	// 포인트 계산 함수
-	void pointCount(int price) {
-		user.point += (int) (price * 0.01); // 1% 적립
-	}
+
 	
 	//leftmonth, leftdate 갱신
-	void updateDate() { // 1달은 30일이라고 가정.
+	public void updateDate(User user) { // 1달은 30일이라고 가정.
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar now = Calendar.getInstance();
 		now.setTime(new Date());

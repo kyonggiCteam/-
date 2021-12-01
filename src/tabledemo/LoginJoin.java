@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,7 +33,13 @@ public class LoginJoin extends JFrame{
 		// 버튼 생성
 		JButton login = new JButton("로그인");
 		JButton join = new JButton("회원가입");
-
+		
+		login.setBorderPainted(false); // 버튼 테두리 설정해제
+		join.setBorderPainted(false); // 버튼 테두리 설정해제
+		login.setBackground(new Color(153, 231,35));
+		join.setBackground(new Color(153, 231,35));
+		c.setBackground(new Color(240, 248, 239));
+		
 		// ★ 버튼 위치와 크기 설정
 		login.setBounds(48, 100, 96, 63); 
 		join.setBounds(192, 100, 96, 63);
@@ -47,7 +54,7 @@ public class LoginJoin extends JFrame{
 			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
 				// TODO Auto-generated method stub
 				Login l = new Login();
-				setVisible(false); // 창 안보이게 하기 
+				dispose(); // 창 안보이게 하기 
 			}
 		});;
 
@@ -57,15 +64,12 @@ public class LoginJoin extends JFrame{
 			public void actionPerformed(ActionEvent e) {//회원가입창으로 이동
 				// TODO Auto-generated method stub
 				Join j = new Join();
-				setVisible(false); // 창 안보이게 하기 
+				dispose(); // 창 안보이게 하기 
 			}
 		});;
 
 		// 프레임이 보이도록 설정
 		setVisible(true);
-
-		// ★ 컨텐츠 영역의 크기 표시
-		System.out.println(getContentPane().getSize());
 	}
 
 }

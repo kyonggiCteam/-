@@ -1,5 +1,6 @@
 package tabledemo;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -23,7 +24,7 @@ public class MapOftenSpot extends JPanel implements ActionListener{
 	RentSpot spot;
 	Map map;
 	
-	Image img = new ImageIcon("image/background.png").getImage();
+	Image img = new ImageIcon("즐겨찾기.png").getImage();
 	
 	MapOftenSpot(User user, Map m) {
 		this.user = user;
@@ -31,8 +32,17 @@ public class MapOftenSpot extends JPanel implements ActionListener{
 		setLayout(null);
 		setSize(700, 500);
 		setVisible(false);
-		// setBounds(가로위치, 세로위치, 가로길이, 세로길이);
 		
+		j1.setBorderPainted(false); // 버튼 테두리 설정해제
+		j1.setBackground(new Color(41, 175,76));
+		j2.setBorderPainted(false); // 버튼 테두리 설정해제
+		j2.setBackground(new Color(41, 175,76));
+		j3.setBorderPainted(false); // 버튼 테두리 설정해제
+		j3.setBackground(new Color(41, 175,76));
+		back.setBorderPainted(false); // 버튼 테두리 설정해제
+		back.setBackground(new Color(153, 231,35));
+		
+		// setBounds(가로위치, 세로위치, 가로길이, 세로길이);
 		back.setBounds(10, 505, 100, 25);
 		add(back);
 		
@@ -69,7 +79,7 @@ public class MapOftenSpot extends JPanel implements ActionListener{
 			@Override
 			public void actionPerformed(ActionEvent e) { // 뒤로가기
 				// TODO Auto-generated method stub
-				new Table(user);
+				new MainMenu(user);
 				m.setVisible(false); // 창 안보이게 하기 
 			}
 		});
